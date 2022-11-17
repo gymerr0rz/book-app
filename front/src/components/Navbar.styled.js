@@ -24,6 +24,13 @@ const NavLinksStyled = styled.div`
     text-transform: uppercase;
     padding: 1rem;
   }
+  li a {
+    transition: color 0.2s ease;
+  }
+  li a:hover {
+    color: #6c63ff;
+    transition: color 0.2s ease;
+  }
 `;
 
 const LogoStyled = styled.div`

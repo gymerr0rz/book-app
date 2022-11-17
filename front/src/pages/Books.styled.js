@@ -8,7 +8,7 @@ const BooksContainer = styled.div`
   text-align: center;
   height: 85vh;
   width: 100vw;
-  font-family: 'Jua';
+  font-family: 'Overpass';
   background-color: rgba(16, 17, 28, 0.98);
   position: relative;
   overflow: hidden;
@@ -16,22 +16,25 @@ const BooksContainer = styled.div`
   h1 {
     color: #fff;
     font-size: 64px;
+    font-weight: 800;
   }
   p {
-    max-width: 90%;
+    max-width: 80%;
     color: #fff;
     font-size: 20px;
     padding: 5px 0 30px 0;
     margin: 0 auto;
+    font-weight: 300;
   }
   button {
-    width: 50%;
+    width: 250px;
     padding: 20px 15px;
     border-radius: 46px;
     border: none;
     text-transform: uppercase;
     background-color: #6c63ff;
-    font-family: 'Jua';
+    font-family: 'Overpass';
+    font-weight: 800;
     font-size: 1rem;
     color: #fff;
     transition: background-color 0.2s ease, transform 0.1s ease;

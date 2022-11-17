@@ -1,6 +1,7 @@
 import React from 'react';
 import { HomeContainer, HomeText } from './Home.styled';
 import BookVector from '../assets/book-lover.svg';
+import { Link } from 'react-router-dom';
 const test = '/laibə(ɹ)';
 
 const Home = () => {
@@ -36,7 +37,9 @@ const Home = () => {
             sed lectus ligula. Nulla faucibus elementum magna. Fusce accumsan
             sagittis arcu, et efficitur eros placerat ut.
           </p>
-          <button>Start Reading</button>
+          <Link to="/books">
+            <button>Start Reading</button>
+          </Link>
         </HomeText>
         <img src={BookVector} alt="picture-book" />
       </HomeContainer>

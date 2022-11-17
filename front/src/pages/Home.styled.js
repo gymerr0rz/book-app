@@ -6,7 +6,7 @@ const HomeContainer = styled.div`
   gap: 190px;
   height: 85vh;
   width: 100vw;
-  font-family: 'Jua';
+  font-family: 'Overpass';
   background-color: rgba(16, 17, 28, 0.98);
   img {
     width: 100%;
@@ -32,8 +32,8 @@ const HomeText = styled.div`
   }
   .main-text {
     margin: 10px;
-    font-family: 'Jua';
-    font-weight: 100;
+    font-family: 'Overpass';
+    font-weight: 400;
   }
   p {
     color: #fff;
@@ -41,13 +41,14 @@ const HomeText = styled.div`
     margin: 0 0 15px 0;
   }
   button {
-    width: 50%;
+    width: 250px;
     padding: 20px 15px;
     border-radius: 46px;
     border: none;
     text-transform: uppercase;
     background-color: #6c63ff;
-    font-family: 'Jua';
+    font-family: 'Overpass';
+    font-weight: 800;
     font-size: 1rem;
     margin: 20px;
     cursor: pointer;
