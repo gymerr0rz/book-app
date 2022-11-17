@@ -16,12 +16,16 @@ const LoginForm = styled.div`
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
+  width: 400px;
   padding: 50px 30px;
   font-family: 'Overpass';
   p {
     color: #fff;
     margin: 0 0 20px 0;
     color: gray;
+    a {
+      color: #6c63ff;
+    }
   }
 
   .email {
@@ -51,7 +55,7 @@ const LoginForm = styled.div`
     border-bottom: 1px #6c63ff solid;
     background-color: rgba(0, 0, 0, 0.5);
     margin: 10px 0;
-    padding: 15px 80px;
+    padding: 15px 10px;
     width: 100%;
     position: relative;
     color: #fff;
@@ -59,7 +63,8 @@ const LoginForm = styled.div`
 
   input::placeholder {
     position: absolute;
-    left: 20px;
+    left: 10px;
+    color: #fff;
   }
 
   input:focus {
