@@ -55,20 +55,17 @@ router.post('/login', async (req, res) => {
   res.json({ status: 'error', error: 'Invalid Password!' });
 });
 
-router.post('/userData', async (req, res) => {
+router.post('/userData', (req, res) => {
   const { token } = req.body;
-  try {
-    const user = jwt.verify(token, JWT_SECRET);
-    console.log(user);
-    const useremail = user.email;
-    await User.findOne({ email: useremail })
-      .then((data) => res.json({ status: 'success', data: data }))
-      .catch((error) => {
-        res.json({ status: 'error', data: error });
-      });
-  } catch (err) {
-    console.log(err);
-  }
+  const user = jwt.verify(token, JWT_SECRET);
+  const useremail = user.email;
+  User.findOne({ email: useremail })
+    .then((data) => {
+      return res.json({ status: 'success', data: data });
+    })
+    .catch((error) => {
+      res.json({ status: 'error', data: error });
+    });
 });
 
 module.exports = router;
