@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { RegisterContainer, RegisterForm } from './Register.styled';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -13,8 +14,8 @@ export default class RegisterPage extends Component {
   }
 
   handleSubmit(e) {
+    e.preventDefault();
     const { email, username, password } = this.state;
-    console.log(email, username, password);
     fetch('http://localhost:4000/register', {
       method: 'POST',
       crossDomain: true,
@@ -31,18 +32,47 @@ export default class RegisterPage extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, 'userRegister');
+        console.log(data);
+        if (data.status === 'success') {
+          toast.success('Account Created', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+          });
+          window.localStorage.setItem('token', data.data);
+          setTimeout(() => {
+            window.location.href = './login';
+          }, 2000);
+        }
+        // if (data.status == 'error') {
+        //   toast.error('Incorrect Password or Email', {
+        //     position: 'top-right',
+        //     autoClose: 2000,
+        //     hideProgressBar: true,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        //     theme: 'dark',
+        //   });
+        // }
       });
   }
 
   render() {
     return (
       <>
+        <ToastContainer />
         <RegisterContainer>
           <RegisterForm>
-            <h1>Welcome to Liber</h1>
-            <p>Create your account</p>
             <form onSubmit={this.handleSubmit}>
+              <h1>Welcome to Liber</h1>
+              <p>Create your account!</p>
               <div className="email">
                 <p>E-mail</p>
                 <input
@@ -77,11 +107,11 @@ export default class RegisterPage extends Component {
                 </div>
                 <a>Forgot password</a>
               </div>
-              <button>Create an account</button>
+              <button className="submitForm">Create an account</button>
+              <p>
+                Already have an account? <a>Sign Up</a>
+              </p>
             </form>
-            <p>
-              Already have an account? <a>Sign Up</a>
-            </p>
           </RegisterForm>
         </RegisterContainer>
       </>

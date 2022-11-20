@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = mongoose.model('UserInfo');
 const jwt = require('jsonwebtoken');
-
+const Cookies = require('cookies');
 const JWT_SECRET = 'ABCDEFGHIJKLMNOPQRSTVUXZY123456789';
 
 router.post('/register', async (req, res) => {
@@ -14,22 +14,28 @@ router.post('/register', async (req, res) => {
   try {
     const oldUser = await User.findOne({ email });
     if (oldUser) {
-      return res.send({ error: 'User exists...' });
+      return res.send({ error: 'User exists!' });
     }
     await User.create({
       username,
       email,
       password: encryptedPassword,
     });
-    res.send({ status: 'success' });
+
+    if (res.status(201)) {
+      return res.json({ status: 'success' });
+    } else {
+      return res.json({ error: 'error' });
+    }
   } catch (err) {
-    res.send({ status: 'error', content: err });
+    console.log(err);
   }
 });
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
+    var keys = ['keyboard cat'];
     const user = await User.findOne({ email });
     if (!user) {
       return res.send({ error: 'User Not Found!' });
@@ -47,6 +53,22 @@ router.post('/login', async (req, res) => {
     console.log(err);
   }
   res.json({ status: 'error', error: 'Invalid Password!' });
+});
+
+router.post('/userData', async (req, res) => {
+  const { token } = req.body;
+  try {
+    const user = jwt.verify(token, JWT_SECRET);
+    console.log(user);
+    const useremail = user.email;
+    await User.findOne({ email: useremail })
+      .then((data) => res.json({ status: 'success', data: data }))
+      .catch((error) => {
+        res.json({ status: 'error', data: error });
+      });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;

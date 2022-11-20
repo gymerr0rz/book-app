@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, useEffect } from 'react';
 import profileAvatar from '../assets/profile-avatar.svg';
 import {
   ProfileAvatar,
@@ -6,30 +6,45 @@ import {
   ProfileAvatarContainer,
 } from './User.styled';
 import { Link } from 'react-router-dom';
+const token = localStorage.getItem('token');
+console.log(token);
 
-const user = false;
+export default class User extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      email: '',
+    };
+  }
 
-function UserRegistered() {
-  if (user) {
-    return <p>Welcome back, Asco!</p>;
-  } else {
+  fetchUserInfo() {
+    fetch('http://localhost:4000/userData', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: '*/*',
+      },
+      body: {
+        token,
+      },
+    })
+      .then((res) => {
+        res.json();
+      })
+      .then((data) => {
+        this.state.username = data.username;
+      });
+  }
+
+  render() {
     return (
-      <>
-        <Link to="/register">Register</Link>/<Link to="/login">Login</Link>
-      </>
+      <ProfileContainer className="profile">
+        <Link to="/register">Register</Link> /<Link to="/login">Login</Link>
+        <ProfileAvatarContainer>
+          <ProfileAvatar src={profileAvatar} alt="test" />
+        </ProfileAvatarContainer>
+      </ProfileContainer>
     );
   }
 }
-
-const User = () => {
-  return (
-    <ProfileContainer className="profile">
-      {UserRegistered()}
-      <ProfileAvatarContainer>
-        <ProfileAvatar src={profileAvatar} alt="test" />
-      </ProfileAvatarContainer>
-    </ProfileContainer>
-  );
-};
-
-export default User;

@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import { LoginContainer, LoginForm } from './Login.styled';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+export let usersName = '';
 export default class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
+      username: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
-    const { email, password } = this.state;
-    console.log(email, password);
+    e.preventDefault();
+    const { email, password, username } = this.state;
+    console.log(email, password, username);
     fetch('http://localhost:4000/login', {
       method: 'POST',
       crossDomain: true,
@@ -29,11 +34,36 @@ export default class LoginPage extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, 'userRegister');
-        if (data.status == 'ok') {
-          alert('login successful');
-          window.localStorage.setItem('token', data.data);
-          window.location.href = './userDetails';
+        if (data.status == 'success') {
+          toast.success('Login Successful', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+          });
+          this.state.username = username;
+          usersName = this.state.username;
+
+          setTimeout(() => {
+            window.localStorage.setItem('token', data.data);
+            window.location.href = './';
+          }, 2000);
+        }
+        if (data.status == 'error') {
+          toast.error('Incorrect Password or Email', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+          });
         }
       });
   }
@@ -41,6 +71,7 @@ export default class LoginPage extends Component {
   render() {
     return (
       <>
+        <ToastContainer />
         <LoginContainer>
           <LoginForm>
             <h1>Welcome back!</h1>

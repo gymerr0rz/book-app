@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from 'react';
+import React, { useImperativeHandle, useEffect } from 'react';
 import User from './User';
 import { Container, NavLinksStyled, LogoStyled } from './Navbar.styled';
 import Logo from '../assets/white-logo.png';

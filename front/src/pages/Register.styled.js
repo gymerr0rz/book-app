@@ -5,6 +5,7 @@ const RegisterContainer = styled.div`
   width: 100vw;
   height: 85vh;
   background-color: rgba(16, 17, 28, 0.98);
+  overflow: hidden;
 `;
 
 const RegisterForm = styled.div`
