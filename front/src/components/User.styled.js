@@ -4,6 +4,7 @@ const ProfileContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: right;
   color: #fff;
   a {
     font-family: 'Jetbrains Mono';
@@ -20,6 +21,17 @@ const ProfileContainer = styled.div`
   a:hover {
     color: #6c63ff;
     transition: color 0.2s ease;
+  }
+
+  .login a {
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  span {
+    font-family: 'JetBrains Mono';
+    padding: 0 5px;
+    cursor: pointer;
+    color: #6c63ff;
   }
 `;
 

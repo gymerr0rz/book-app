@@ -6,41 +6,47 @@ import {
   ProfileAvatarContainer,
 } from './User.styled';
 import { Link } from 'react-router-dom';
-const token = localStorage.getItem('token');
-console.log(token);
-
 export default class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      email: '',
     };
   }
+  handleClick() {
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
 
-  fetchUserInfo() {
+  componentDidMount() {
+    const token = localStorage.getItem('token');
     fetch('http://localhost:4000/userData', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: '*/*',
       },
-      body: {
-        token,
-      },
+      body: JSON.stringify({ token }),
     })
-      .then((res) => {
-        res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
-        this.state.username = data.username;
-      });
+        this.state.username = data.data.username;
+        const loginName = document.querySelector('.login');
+        loginName.innerHTML = `<p>Welcome back,<a>${this.state.username}!</a></p><span>Log Out</span>`;
+        const logoutBtn = loginName.querySelector('span');
+        logoutBtn.addEventListener('click', () => {
+          this.handleClick();
+        });
+      })
+      .catch((err) => console.log(err));
   }
 
   render() {
     return (
       <ProfileContainer className="profile">
-        <Link to="/register">Register</Link> /<Link to="/login">Login</Link>
+        <div className="login">
+          <Link to="/register">Register</Link> / <Link to="/login">Login</Link>
+        </div>
         <ProfileAvatarContainer>
           <ProfileAvatar src={profileAvatar} alt="test" />
         </ProfileAvatarContainer>
