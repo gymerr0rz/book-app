@@ -43,27 +43,6 @@ export default class User extends Component {
         .catch((err) => console.log(err));
     }
 
-    fetch('http://localhost:4000/userData', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: '*/*',
-      },
-      body: JSON.stringify({ token }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        this.state.username = data.data.username;
-        const loginName = document.querySelector('.login');
-        loginName.innerHTML = `<p>Welcome back,<a>${this.state.username}!</a></p><span>Log Out</span>`;
-        const logoutBtn = loginName.querySelector('span');
-        logoutBtn.addEventListener('click', () => {
-          this.handleClick();
-        });
-      })
-      .catch((err) => console.log(err));
-
-  }
 
   render() {
     return (
