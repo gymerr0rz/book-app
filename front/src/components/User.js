@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import profileAvatar from '../assets/profile-avatar.svg';
 import {
   ProfileAvatar,
@@ -42,7 +42,7 @@ export default class User extends Component {
         })
         .catch((err) => console.log(err));
     }
-
+  }
 
   render() {
     return (
