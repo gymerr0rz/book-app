@@ -6,7 +6,7 @@ const Container = styled.div`
   padding: 0 100px;
   align-items: center;
   width: 100vw;
-  height: 15vh;
+  height: 154px;
   background-color: rgba(9, 9, 11, 0.99);
   p,
   a {

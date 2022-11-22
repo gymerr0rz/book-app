@@ -24,7 +24,7 @@ const ProfileContainer = styled.div`
   }
 
   .login a {
-    font-weight: 800;
+    font-weight: normal;
     text-transform: uppercase;
   }
   span {

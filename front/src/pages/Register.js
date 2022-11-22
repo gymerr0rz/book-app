@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { RegisterContainer, RegisterForm } from './Register.styled';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -36,7 +37,7 @@ export default class RegisterPage extends Component {
         if (data.status === 'success') {
           toast.success('Account Created', {
             position: 'top-right',
-            autoClose: 2000,
+            autoClose: 1000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -109,7 +110,7 @@ export default class RegisterPage extends Component {
               </div>
               <button className="submitForm">Create an account</button>
               <p>
-                Already have an account? <a>Sign Up</a>
+                Already have an account? <Link to="/login">Login!</Link>
               </p>
             </form>
           </RegisterForm>

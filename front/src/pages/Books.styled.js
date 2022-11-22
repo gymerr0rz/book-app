@@ -6,20 +6,23 @@ const BooksContainer = styled.div`
   align-items: center;
   gap: 190px;
   text-align: center;
-  height: 85vh;
+  height: 873px;
   width: 100vw;
   font-family: 'Overpass';
   background-color: rgba(16, 17, 28, 0.98);
   position: relative;
   overflow: hidden;
-
+  #drop_zone {
+    border: 2px dotted #6c63ff;
+    padding: 250px 200px;
+  }
   h1 {
     color: #fff;
     font-size: 64px;
     font-weight: 800;
   }
   p {
-    max-width: 80%;
+    max-width: 60%;
     color: #fff;
     font-size: 20px;
     padding: 5px 0 30px 0;
@@ -58,6 +61,12 @@ const BooksContainer = styled.div`
     transform: translate(-50%, -50%);
     z-index: 0;
     opacity: 20%;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
   }
 
   .books-text {

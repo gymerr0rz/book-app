@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import profileAvatar from '../assets/profile-avatar.svg';
 import {
   ProfileAvatar,

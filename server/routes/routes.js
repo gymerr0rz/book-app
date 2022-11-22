@@ -38,7 +38,7 @@ router.post('/login', async (req, res) => {
     var keys = ['keyboard cat'];
     const user = await User.findOne({ email });
     if (!user) {
-      return res.send({ error: 'User Not Found!' });
+      return res.json({ status: 'User Not Found!' });
     }
     if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign({ email: user.email }, JWT_SECRET);
@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
       if (res.status(201)) {
         return res.json({ status: 'success', data: token });
       } else {
-        return res.json({ error: 'error' });
+        return res.json({ status: 'error' });
       }
     }
   } catch (err) {
@@ -66,6 +66,18 @@ router.post('/userData', (req, res) => {
     .catch((error) => {
       res.json({ status: 'error', data: error });
     });
+});
+
+router.post('/books/:id', async (res, req) => {
+  const booksID = req.params.booksID;
+  console.log(req.body);
+  const { books } = req.body;
+  await new UserSchema({
+    books: books,
+  });
+  console.log(req.params);
+  const id = req.params.id;
+  console.log(books);
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@ const HomeContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 190px;
-  height: 85vh;
+  height: 873px;
   width: 100vw;
   font-family: 'Overpass';
   background-color: rgba(16, 17, 28, 0.98);

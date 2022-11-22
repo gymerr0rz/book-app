@@ -1,4 +1,4 @@
-import React, { useImperativeHandle, useEffect } from 'react';
+import React from 'react';
 import User from './User';
 import { Container, NavLinksStyled, LogoStyled } from './Navbar.styled';
 import Logo from '../assets/white-logo.png';
@@ -15,7 +15,9 @@ const Navbar = () => {
         </ul>
       </NavLinksStyled>
       <LogoStyled className="logo">
-        <img src={Logo} alt="Logo" />
+        <CustomLink to="/">
+          <img src={Logo} alt="Logo" />{' '}
+        </CustomLink>
       </LogoStyled>
       <User />
     </Container>

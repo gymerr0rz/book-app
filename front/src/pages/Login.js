@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { LoginContainer, LoginForm } from './Login.styled';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 export let usersName = '';
 export default class LoginPage extends Component {
@@ -10,7 +11,6 @@ export default class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
-      username: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -34,10 +34,10 @@ export default class LoginPage extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == 'success') {
+        if (data.status === 'success') {
           toast.success('Login Successful', {
             position: 'top-right',
-            autoClose: 2000,
+            autoClose: 1000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -45,18 +45,28 @@ export default class LoginPage extends Component {
             progress: undefined,
             theme: 'dark',
           });
-          this.state.username = username;
-          usersName = this.state.username;
 
           setTimeout(() => {
             window.localStorage.setItem('token', data.data);
             window.location.href = './';
           }, 2000);
         }
-        if (data.status == 'error') {
+        if (data.status === 'error') {
           toast.error('Incorrect Password or Email', {
             position: 'top-right',
-            autoClose: 2000,
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+          });
+        }
+        if (data.status === 'User Not Found!') {
+          toast.warning('User Not Found!', {
+            position: 'top-right',
+            autoClose: 1000,
             hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -105,7 +115,7 @@ export default class LoginPage extends Component {
               <button>Login</button>
             </form>
             <p>
-              Don't have an account? <a>Register</a>
+              Don't have an account? <Link to="/register">Register!</Link>
             </p>
           </LoginForm>
         </LoginContainer>
