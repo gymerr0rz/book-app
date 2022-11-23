@@ -15,7 +15,9 @@ const BooksContainer = styled.div`
   #drop_zone {
     border: 2px dotted #6c63ff;
     padding: 250px 200px;
+    z-index: 1;
   }
+
   h1 {
     color: #fff;
     font-size: 64px;
@@ -59,7 +61,7 @@ const BooksContainer = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 0;
+    z-index: -99;
     opacity: 20%;
     user-drag: none;
     -webkit-user-drag: none;
@@ -69,8 +71,21 @@ const BooksContainer = styled.div`
     -ms-user-select: none;
   }
 
-  .books-text {
-    z-index: 1;
+  input[type='file'] {
+    display: none;
+  }
+  .custom-file-upload {
+    display: inline-block;
+    border: none;
+    background-color: #6c63ff;
+    color: #fff;
+    padding: 20px 15px;
+    border-radius: 46px;
+    width: 250px;
+    cursor: pointer;
+    font-family: 'Overpass';
+    font-weight: 800;
+    text-transform: uppercase;
   }
 `;
 

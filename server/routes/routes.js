@@ -7,6 +7,8 @@ const User = mongoose.model('UserInfo');
 const jwt = require('jsonwebtoken');
 const Cookies = require('cookies');
 const JWT_SECRET = 'ABCDEFGHIJKLMNOPQRSTVUXZY123456789';
+const EPub = require('epub');
+const { parse } = require('dotenv');
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -68,16 +70,51 @@ router.post('/userData', (req, res) => {
     });
 });
 
-router.post('/books/:id', async (res, req) => {
-  const booksID = req.params.booksID;
-  console.log(req.body);
-  const { books } = req.body;
-  await new UserSchema({
-    books: books,
+function parsingBook(book) {
+  let epub = new EPub(book, '/images/', '/links/');
+  epub.on('end', function () {
+    // epub is initialized now
+    console.log(epub.metadata);
+    epub.flow.forEach(function (chapter) {
+      // console.log(chapter.id);
+    });
+    epub.getChapter('titlepage', (error, text) => {
+      console.log(text);
+    });
   });
+
+  epub.parse();
+}
+
+router.post('/books', (req, res) => {
+  console.log(req.body);
+  const { token, book } = req.body;
+  const user = jwt.verify(token, JWT_SECRET);
+  const useremail = user.email;
+
+  User.findOne({ email: useremail })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      res.json({ status: 'error', data: error });
+    });
   console.log(req.params);
-  const id = req.params.id;
-  console.log(books);
 });
 
 module.exports = router;
+// let epub = new EPub('./assets/book1.epub', '/images/', '/links/');
+
+// epub.on('end', function () {
+//   // epub is initialized now
+//   console.log(epub.metadata);
+//   epub.flow.forEach(function (chapter) {
+//     // console.log(chapter.id);
+//   });
+//   epub.getChapter('titlepage', (error, text) => {
+//     console.log(text);
+//   });
+// });
+
+// epub.parse();

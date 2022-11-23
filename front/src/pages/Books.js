@@ -20,14 +20,18 @@ export default class BooksPage extends Component {
       [...ev.dataTransfer.items].forEach((item, i) => {
         // If dropped items aren't files, reject them
         if (item.kind === 'file' && item.type === 'application/epub+zip') {
-          const file = item.getAsFile();
-          console.log(`… file[${i}].name = ${file.name}`);
-          fetch(`http://localhost:4000/books/:id`, {
+          const book = item.getAsFile();
+          const token = localStorage.getItem('token');
+          const sendBody = JSON.stringify({ token });
+          console.log(token);
+          // console.log(`… file[${i}].name = ${file.name}`);
+          fetch(`http://localhost:4000/books`, {
             method: 'POST',
-            body: {
-              id: 1,
-              books: file.name,
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: '*/*',
             },
+            body: sendBody,
           })
             .then((res) => res.json())
             .then((data) => console.log(data));
@@ -76,7 +80,12 @@ export default class BooksPage extends Component {
                 Import a book or drag the book into the import space so you can
                 use features like bookmarking and etc.
               </p>
-              <button>Import</button>
+              <form class="upload">
+                <label for="file-upload" class="custom-file-upload">
+                  <i class="fa fa-cloud-upload"></i> Custom Upload
+                </label>
+                <input id="file-upload" type="file" onChange={(e) => {}} />
+              </form>
             </div>
           </div>
         </>
