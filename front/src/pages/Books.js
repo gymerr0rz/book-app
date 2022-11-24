@@ -15,30 +15,28 @@ export default class BooksPage extends Component {
 
     // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
+
     if (ev.dataTransfer.items) {
       // Use DataTransferItemList interface to access the file(s)
       [...ev.dataTransfer.items].forEach((item, i) => {
         // If dropped items aren't files, reject them
-        if (item.kind === 'file' && item.type === 'application/epub+zip') {
+        if (item.kind === 'file' && item.type === 'application/pdf') {
           const book = item.getAsFile();
-          const token = localStorage.getItem('token');
-          const sendBody = JSON.stringify({ token });
-          console.log(token);
-          // console.log(`… file[${i}].name = ${file.name}`);
+          let formData = new FormData();
+          formData.append('filename', book);
+          console.log(formData);
           fetch(`http://localhost:4000/books`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: '*/*',
-            },
-            body: sendBody,
+            'Content-Type': 'multipart/form-data',
+            body: formData,
           })
             .then((res) => res.json())
             .then((data) => console.log(data));
         } else {
           [...ev.dataTransfer.files].forEach((file, i) => {
             console.log(`… file[${i}].name = ${file.name}`);
-            toast.error('The file needs to be EPUB format.', {
+            console.log(file);
+            toast.error('The file needs to be PDF format.', {
               position: 'top-right',
               autoClose: 3000,
               hideProgressBar: true,
