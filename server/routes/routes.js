@@ -1,13 +1,17 @@
 const express = require('express');
 const router = express.Router();
-require('../schemas/UserSchema');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const User = mongoose.model('UserInfo');
 const jwt = require('jsonwebtoken');
 const Cookies = require('cookies');
 const JWT_SECRET = 'ABCDEFGHIJKLMNOPQRSTVUXZY123456789';
 const fileUpload = require('express-fileupload');
+const pdf = require('pdf-parse');
+const fs = require('node:fs');
+require('../schemas/UserSchema');
+require('../schemas/BooksSchema');
+const User = mongoose.model('UserInfo');
+const Books = mongoose.model('BooksData');
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -70,8 +74,11 @@ router.post('/userData', (req, res) => {
 });
 
 router.post('/books', fileUpload(), (req, res) => {
-  const sampleFile = req.files.filename;
-  console.log(sampleFile);
+  const book = req.files.filename;
+
+  pdf(book).then(async function (data) {
+    res.json({ status: 'success', data: data });
+  });
 });
 
 module.exports = router;

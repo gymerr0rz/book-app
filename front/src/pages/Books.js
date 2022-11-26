@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { BooksContainer } from './Books.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,7 +7,19 @@ import 'react-toastify/dist/ReactToastify.css';
 export default class BooksPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      books: false,
+    };
+  }
+
+  createBook(data) {
+    const root = document.querySelector('.root');
+    root.innerHTML = `
+      <div class="book">
+        <h1>${data.data.info.Title}</h1>
+        <p>${data.data.text}</p>
+      </div>
+    `;
   }
 
   dropHandler(ev) {
@@ -24,15 +36,18 @@ export default class BooksPage extends Component {
           const book = item.getAsFile();
           let formData = new FormData();
           formData.append('filename', book);
-          console.log(formData);
           fetch(`http://localhost:4000/books`, {
             method: 'POST',
             'Content-Type': 'multipart/form-data',
             body: formData,
           })
             .then((res) => res.json())
-            .then((data) => console.log(data));
+            .then((data) => {
+              this.state.books = true;
+              this.createBook(data);
+            });
         } else {
+          this.state.books = false;
           [...ev.dataTransfer.files].forEach((file, i) => {
             console.log(`… file[${i}].name = ${file.name}`);
             console.log(file);
@@ -59,9 +74,13 @@ export default class BooksPage extends Component {
     ev.preventDefault();
   }
 
+  uploadFile(e) {
+    e.preventDefault();
+    console.log(e.files);
+  }
+
   isBooks() {
-    const books = false;
-    if (books) {
+    if (this.state.books) {
       return <h1>You have books</h1>;
     } else {
       return (
@@ -82,7 +101,11 @@ export default class BooksPage extends Component {
                 <label for="file-upload" class="custom-file-upload">
                   <i class="fa fa-cloud-upload"></i> Custom Upload
                 </label>
-                <input id="file-upload" type="file" onChange={(e) => {}} />
+                <input
+                  id="file-upload"
+                  type="file"
+                  onChange={(e) => this.uploadFile(e)}
+                />
               </form>
             </div>
           </div>
@@ -95,7 +118,7 @@ export default class BooksPage extends Component {
     return (
       <>
         <ToastContainer />
-        <BooksContainer>{this.isBooks()}</BooksContainer>
+        <BooksContainer className="root">{this.isBooks()}</BooksContainer>
       </>
     );
   }

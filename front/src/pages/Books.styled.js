@@ -87,6 +87,45 @@ const BooksContainer = styled.div`
     font-weight: 800;
     text-transform: uppercase;
   }
+
+  .book {
+    height: 100%;
+    width: 100vw;
+    overflow: auto;
+    /* width */
+    ::-webkit-scrollbar {
+      width: 25px;
+      border-radius: 36px;
+      margin: 20px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #000;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #6c63ff;
+      border-radius: 50px;
+      transition: background 0.2s ease;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      transition: background 0.2s ease;
+      background: #353177;
+    }
+    h1 {
+      font-size: 3rem;
+      padding: 20px;
+      max-width: 60%;
+      margin: 0 auto;
+    }
+
+    p {
+    }
+  }
 `;
 
 export { BooksContainer };

@@ -19,7 +19,6 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
-  books: [{ type: String, unique: true }],
 });
 
 mongoose.model('UserInfo', userSchema);
