@@ -3,15 +3,44 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Cookies = require('cookies');
+require('dotenv').config();
 const JWT_SECRET = 'ABCDEFGHIJKLMNOPQRSTVUXZY123456789';
-const fileUpload = require('express-fileupload');
 const pdf = require('pdf-parse');
-const fs = require('node:fs');
 require('../schemas/UserSchema');
-require('../schemas/BooksSchema');
 const User = mongoose.model('UserInfo');
-const Books = mongoose.model('BooksData');
+const { GridFsStorage } = require('multer-gridfs-storage');
+const multer = require('multer');
+const crypto = require('crypto');
+const Grid = require('gridfs-stream');
+const path = require('path');
+
+const conn = mongoose.createConnection(process.env.MONGO_LOCAL);
+let gfs;
+
+conn.once('open', () => {
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection('books');
+});
+
+const storage = new GridFsStorage({
+  url: process.env.MONGO_LOCAL,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString('hex') + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: 'books',
+        };
+        resolve(fileInfo);
+      });
+    });
+  },
+});
+const upload = multer({ storage });
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -73,12 +102,51 @@ router.post('/userData', (req, res) => {
     });
 });
 
-router.post('/books', fileUpload(), (req, res) => {
-  const book = req.files.filename;
+router.post('/books', upload.single('file'), (req, res) => {
+  console.log(req.file);
+  res.json({ file: req.file });
+});
 
-  pdf(book).then(async function (data) {
-    res.json({ status: 'success', data: data });
+router.get('/book', (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    // Check if files
+    if (!files || files.length === 0) {
+      return res.json({
+        status: 'failed',
+        err: 'No files exist.',
+      });
+    }
+    return res.json(files);
+  });
+});
+
+router.get('/book/:filename', (req, res) => {
+  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
+    // Check if file exits
+    if (!file || file.length === 0) {
+      return res.json({
+        status: 'failed',
+        err: 'No file exist.',
+      });
+    }
+
+    // Check if PDF
+    if (file.contentType === 'application/pdf') {
+      // Read output to browser
+      pdf(file).then((data) => {
+        console.log(data);
+      });
+    } else {
+      res.statusCode(404).json({
+        err: 'Not an pdf file!',
+      });
+    }
   });
 });
 
 module.exports = router;
+// const book = req.files.filename;
+// pdf(book).then(async function (data) {
+//   console.log(data);
+//   res.json({ status: 'success', data: data });
+// });

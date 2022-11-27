@@ -1,11 +1,9 @@
 const express = require('express');
 require('dotenv').config();
-const EPub = require('epub');
 const mongoose = require('mongoose');
 const routesPoints = require('./routes/routes');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-
+const methodOverride = require('method-override');
 mongoose
   .connect(process.env.MONGO_LOCAL, {
     useNewUrlParser: true,
@@ -15,6 +13,7 @@ mongoose
   });
 
 const app = express();
+app.use(methodOverride('_method'));
 app.use(express.json({ limit: '50mb' }));
 app.use(
   express.urlencoded({
@@ -25,6 +24,7 @@ app.use(
 );
 app.use(cors());
 app.use('/', routesPoints);
+
 app.listen(process.env.PORT, () => {
   console.log(`Listening on ${process.env.PORT}`);
 });
