@@ -35,7 +35,7 @@ export default class BooksPage extends Component {
         if (item.kind === 'file' && item.type === 'application/pdf') {
           const book = item.getAsFile();
           let formData = new FormData();
-          formData.append('filename', book);
+          formData.append('file', book);
           fetch(`http://localhost:4000/books`, {
             method: 'POST',
             'Content-Type': 'multipart/form-data',
@@ -43,8 +43,10 @@ export default class BooksPage extends Component {
           })
             .then((res) => res.json())
             .then((data) => {
-              this.state.books = true;
-              this.createBook(data);
+              console.log(data);
+              // this.state.books = true;
+              // this.createBook(data);
+              // console.log(data.data);
             });
         } else {
           this.state.books = false;
@@ -76,10 +78,22 @@ export default class BooksPage extends Component {
 
   uploadFile(e) {
     e.preventDefault();
-    console.log(e.files);
+    console.log(e.target.files[0]);
+    let formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    fetch(`http://localhost:4000/books`, {
+      method: 'POST',
+      'Content-Type': 'multipart/form-data',
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   }
 
   isBooks() {
+    fetch('http://localhost:4000/books');
     if (this.state.books) {
       return <h1>You have books</h1>;
     } else {
@@ -104,6 +118,7 @@ export default class BooksPage extends Component {
                 <input
                   id="file-upload"
                   type="file"
+                  name="file"
                   onChange={(e) => this.uploadFile(e)}
                 />
               </form>
