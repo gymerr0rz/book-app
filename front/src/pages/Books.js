@@ -8,7 +8,7 @@ export default class BooksPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: false,
+      numberOfBooks: '',
     };
   }
 
@@ -16,8 +16,10 @@ export default class BooksPage extends Component {
     const root = document.querySelector('.root');
     root.innerHTML = `
       <div class="book">
-        <h1>${data.data.info.Title}</h1>
-        <p>${data.data.text}</p>
+        <h1>You have ${data.length} books!</h1>
+        ${data.forEach((book) => {
+          console.log(book);
+        })}
       </div>
     `;
   }
@@ -36,7 +38,7 @@ export default class BooksPage extends Component {
           const book = item.getAsFile();
           let formData = new FormData();
           formData.append('file', book);
-          fetch(`http://localhost:4000/books`, {
+          fetch(`http://localhost:4000/uploadBook`, {
             method: 'POST',
             'Content-Type': 'multipart/form-data',
             body: formData,
@@ -81,52 +83,55 @@ export default class BooksPage extends Component {
     console.log(e.target.files[0]);
     let formData = new FormData();
     formData.append('file', e.target.files[0]);
-    fetch(`http://localhost:4000/books`, {
+    fetch(`http://localhost:4000/uploadBook`, {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
       body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log(data, typeof data);
       });
   }
 
   isBooks() {
-    fetch('http://localhost:4000/books');
-    if (this.state.books) {
-      return <h1>You have books</h1>;
-    } else {
-      return (
-        <>
-          <div
-            id="drop_zone"
-            onDrop={(e) => this.dropHandler(e)}
-            onDragOver={(e) => this.dragOverHandler(e)}
-          >
-            <img src={img} alt="hello" />
-            <div className="books-text">
-              <h1>Wanna read a book?</h1>
-              <p>
-                Import a book or drag the book into the import space so you can
-                use features like bookmarking and etc.
-              </p>
-              <form class="upload">
-                <label for="file-upload" class="custom-file-upload">
-                  <i class="fa fa-cloud-upload"></i> Custom Upload
-                </label>
-                <input
-                  id="file-upload"
-                  type="file"
-                  name="file"
-                  onChange={(e) => this.uploadFile(e)}
-                />
-              </form>
-            </div>
+    fetch('http://localhost:4000/bookFiles', {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.createBook(data);
+      });
+
+    return (
+      <>
+        <div
+          id="drop_zone"
+          onDrop={(e) => this.dropHandler(e)}
+          onDragOver={(e) => this.dragOverHandler(e)}
+        >
+          <img src={img} alt="hello" />
+          <div className="books-text">
+            <h1>Wanna read a book?</h1>
+            <p>
+              Import a book or drag the book into the import space so you can
+              use features like bookmarking and etc.
+            </p>
+            <form class="upload">
+              <label for="file-upload" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Custom Upload
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                name="file"
+                onChange={(e) => this.uploadFile(e)}
+              />
+            </form>
           </div>
-        </>
-      );
-    }
+        </div>
+      </>
+    );
   }
 
   render() {

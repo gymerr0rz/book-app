@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const fs = require('fs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -13,13 +14,14 @@ const multer = require('multer');
 const crypto = require('crypto');
 const Grid = require('gridfs-stream');
 const path = require('path');
-
 const conn = mongoose.createConnection(process.env.MONGO_LOCAL);
+
 let gfs;
 
 conn.once('open', () => {
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection('books');
+  return gfs;
 });
 
 const storage = new GridFsStorage({
@@ -102,12 +104,12 @@ router.post('/userData', (req, res) => {
     });
 });
 
-router.post('/books', upload.single('file'), (req, res) => {
+router.post('/uploadBook', upload.single('file'), (req, res) => {
   console.log(req.file);
   res.json({ file: req.file });
 });
 
-router.get('/book', (req, res) => {
+router.get('/bookFiles', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     // Check if files
     if (!files || files.length === 0) {
@@ -116,32 +118,37 @@ router.get('/book', (req, res) => {
         err: 'No files exist.',
       });
     }
+    console.log(files);
     return res.json(files);
   });
 });
 
-router.get('/book/:filename', (req, res) => {
-  gfs.files.findOne({ filename: req.params.filename }, (err, file) => {
-    // Check if file exits
-    if (!file || file.length === 0) {
-      return res.json({
-        status: 'failed',
-        err: 'No file exist.',
-      });
-    }
+// router.get('/books/:filename', (req, res) => {
+//   gfs.chunks
+//     .find({ _id: req.params._id }, (err, file) => {
+//       console.log(file, typeof file);
+//       // Check if file exits
+//       if (!file || file.length === 0) {
+//         return res.json({
+//           status: 'failed',
+//           err: 'No file exist.',
+//         });
+//       }
 
-    // Check if PDF
-    if (file.contentType === 'application/pdf') {
-      // Read output to browser
-      pdf(file).then((data) => {
-        console.log(data);
-      });
-    } else {
-      res.statusCode(404).json({
-        err: 'Not an pdf file!',
-      });
-    }
-  });
+//       // Check if PDF
+//       if (file.contentType === 'application/pdf') {
+//         console.log('test');
+//       } else {
+//         res.statusCode(404).json({
+//           err: 'Not an pdf file!',
+//         });
+//       }
+//     })
+//     .sort({ n: 1 });
+// });
+
+router.get('/books/chunks', (req, res) => {
+  gfs.chunks.find({ files_id: req.params.files_id });
 });
 
 module.exports = router;
