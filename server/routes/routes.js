@@ -4,45 +4,22 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 require('dotenv').config();
 const JWT_SECRET = 'ABCDEFGHIJKLMNOPQRSTVUXZY123456789';
-const pdf = require('pdf-parse');
 require('../schemas/UserSchema');
 const User = mongoose.model('UserInfo');
-const { GridFsStorage } = require('multer-gridfs-storage');
-const multer = require('multer');
-const crypto = require('crypto');
 const Grid = require('gridfs-stream');
-const path = require('path');
 const conn = mongoose.createConnection(process.env.MONGO_LOCAL);
-
+const upload = require('../middleware/uploadBook');
+const pdf = require('pdf-parse');
 let gfs;
 
 conn.once('open', () => {
   gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('books');
+  gfs.collection('book');
   return gfs;
 });
-
-const storage = new GridFsStorage({
-  url: process.env.MONGO_LOCAL,
-  file: (req, file) => {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (err, buf) => {
-        if (err) {
-          return reject(err);
-        }
-        const filename = buf.toString('hex') + path.extname(file.originalname);
-        const fileInfo = {
-          filename: filename,
-          bucketName: 'books',
-        };
-        resolve(fileInfo);
-      });
-    });
-  },
-});
-const upload = multer({ storage });
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
@@ -109,46 +86,16 @@ router.post('/uploadBook', upload.single('file'), (req, res) => {
   res.json({ file: req.file });
 });
 
-router.get('/bookFiles', (req, res) => {
-  gfs.files.find().toArray((err, files) => {
-    // Check if files
-    if (!files || files.length === 0) {
-      return res.json({
-        status: 'failed',
-        err: 'No files exist.',
-      });
-    }
-    console.log(files);
-    return res.json(files);
+router.get('/getBooks', (req, res) => {
+  let dataBuffer = fs.readFileSync('./books/1669710767251.pdf');
+
+  pdf(dataBuffer).then(function (data) {
+    // number of pages
+    // PDF metadata
+    console.log(data.metadata);
+    // PDF.js version
+    // check https://mozilla.github.io/pdf.js/getting_started/
   });
-});
-
-// router.get('/books/:filename', (req, res) => {
-//   gfs.chunks
-//     .find({ _id: req.params._id }, (err, file) => {
-//       console.log(file, typeof file);
-//       // Check if file exits
-//       if (!file || file.length === 0) {
-//         return res.json({
-//           status: 'failed',
-//           err: 'No file exist.',
-//         });
-//       }
-
-//       // Check if PDF
-//       if (file.contentType === 'application/pdf') {
-//         console.log('test');
-//       } else {
-//         res.statusCode(404).json({
-//           err: 'Not an pdf file!',
-//         });
-//       }
-//     })
-//     .sort({ n: 1 });
-// });
-
-router.get('/books/chunks', (req, res) => {
-  gfs.chunks.find({ files_id: req.params.files_id });
 });
 
 module.exports = router;

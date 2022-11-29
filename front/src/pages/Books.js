@@ -17,9 +17,6 @@ export default class BooksPage extends Component {
     root.innerHTML = `
       <div class="book">
         <h1>You have ${data.length} books!</h1>
-        ${data.forEach((book) => {
-          console.log(book);
-        })}
       </div>
     `;
   }
@@ -91,6 +88,7 @@ export default class BooksPage extends Component {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, typeof data);
+        window.href = '/';
       });
   }
 
@@ -100,7 +98,9 @@ export default class BooksPage extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        this.createBook(data);
+        if (data.length > 0) {
+          this.createBook(data);
+        }
       });
 
     return (

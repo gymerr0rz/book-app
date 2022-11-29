@@ -4,15 +4,18 @@ const mongoose = require('mongoose');
 const routesPoints = require('./routes/routes');
 const cors = require('cors');
 const methodOverride = require('method-override');
+let database;
+
 mongoose
   .connect(process.env.MONGO_LOCAL, {
     useNewUrlParser: true,
   })
-  .then(() => {
+  .then((db) => {
     console.log('Database connected...');
   });
 
 const app = express();
+
 app.use(methodOverride('_method'));
 app.use(express.json({ limit: '50mb' }));
 app.use(
