@@ -1,24 +1,18 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
 import { BooksContainer } from './Books.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { BooksDisplay } from '../components/BooksDisplay';
 export default class BooksPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      numberOfBooks: '',
+      numPages: null,
+      setNumPages: null,
+      pageNumber: 1,
+      setPageNumber: 1,
     };
-  }
-
-  createBook(data) {
-    const root = document.querySelector('.root');
-    root.innerHTML = `
-      <div class="book">
-        <h1>You have ${data.length} books!</h1>
-      </div>
-    `;
   }
 
   dropHandler(ev) {
@@ -93,16 +87,6 @@ export default class BooksPage extends Component {
   }
 
   isBooks() {
-    fetch('http://localhost:4000/bookFiles', {
-      method: 'GET',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.length > 0) {
-          this.createBook(data);
-        }
-      });
-
     return (
       <>
         <div
@@ -110,6 +94,7 @@ export default class BooksPage extends Component {
           onDrop={(e) => this.dropHandler(e)}
           onDragOver={(e) => this.dragOverHandler(e)}
         >
+          <BooksDisplay />
           <img src={img} alt="hello" />
           <div className="books-text">
             <h1>Wanna read a book?</h1>

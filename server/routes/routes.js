@@ -87,20 +87,18 @@ router.post('/uploadBook', upload.single('file'), (req, res) => {
 });
 
 router.get('/getBooks', (req, res) => {
-  let dataBuffer = fs.readFileSync('./books/1669710767251.pdf');
-
-  pdf(dataBuffer).then(function (data) {
-    // number of pages
-    // PDF metadata
-    console.log(data.metadata);
-    // PDF.js version
-    // check https://mozilla.github.io/pdf.js/getting_started/
+  const arr = [];
+  const fileData = [];
+  const files = fs.readdirSync('./books');
+  files.forEach((file) => {
+    arr.push(fs.readFileSync('./books/' + file));
   });
+  arr.map((a) => {
+    pdf(a).then((b) => fileData.push(b));
+  });
+  setTimeout(() => {
+    res.send(fileData);
+  }, 2000);
 });
 
 module.exports = router;
-// const book = req.files.filename;
-// pdf(book).then(async function (data) {
-//   console.log(data);
-//   res.json({ status: 'success', data: data });
-// });
