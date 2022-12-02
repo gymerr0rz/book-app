@@ -87,17 +87,22 @@ router.post('/uploadBook', upload.single('file'), (req, res) => {
 });
 
 router.get('/getBooks', (req, res) => {
+  function toArrayBuffer(buf) {
+    const ab = new ArrayBuffer(buf.length);
+    const view = new Uint8Array(ab);
+    for (let i = 0; i < buf.length; ++i) {
+      view[i] = buf[i];
+    }
+    return ab;
+  }
   const arr = [];
-  const fileData = [];
   const files = fs.readdirSync('./books');
   files.forEach((file) => {
-    arr.push(fs.readFileSync('./books/' + file));
-  });
-  arr.map((a) => {
-    pdf(a).then((b) => fileData.push(b));
+    const fi = fs.readFileSync('./books/' + file);
+    arr.push(toArrayBuffer(file));
   });
   setTimeout(() => {
-    res.send(fileData);
+    res.send(arr);
   }, 2000);
 });
 
