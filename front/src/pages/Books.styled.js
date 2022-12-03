@@ -6,7 +6,7 @@ const BooksContainer = styled.div`
   align-items: center;
   gap: 190px;
   text-align: center;
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   font-family: 'Overpass';
   background-color: rgba(16, 17, 28, 0.98);
