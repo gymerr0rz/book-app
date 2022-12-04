@@ -32,18 +32,30 @@ const ProfileContainer = styled.div`
     color: #353177;
     transition: color 0.2s ease;
   }
+
+  i {
+    display: inline;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+    border-radius: 100%;
+  }
+
+  i:hover {
+    transition: color 0.3s ease;
+    color: gray;
+  }
 `;
 
 const ProfileAvatar = styled.img`
-  height: 80px;
+  height: 60px;
 `;
 
 const ProfileAvatarContainer = styled.div`
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
   background-color: #d9d9d9;
   border-radius: 50%;
-  margin: 0 0 0 20px;
+  margin: 10px;
 `;
 
 export { ProfileAvatar, ProfileContainer, ProfileAvatarContainer };

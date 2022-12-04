@@ -26,7 +26,6 @@ router.post('/uploadBook', upload.single('file'), (req, res) => {
 });
 
 router.get('/getBooks', (req, res) => {
-  console.log('Loading books...');
   function toArrayBuffer(buf) {
     const ab = new ArrayBuffer(buf.length);
     const view = new Uint8Array(ab);

@@ -23,6 +23,10 @@ const Container = styled.div`
     color: #6c63ff;
     transition: color 0.2s ease;
   }
+  li::marker {
+    content: '';
+    margin: 0;
+  }
 `;
 
 const NavLinksStyled = styled.div`
@@ -43,9 +47,7 @@ const NavLinksStyled = styled.div`
 
 const LogoStyled = styled.div`
   img {
-    display: inline-block;
-    height: 90px;
-    width: 90px;
+    transform: scale(0.5);
   }
 `;
 
