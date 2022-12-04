@@ -17,7 +17,7 @@ export default class RegisterPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { email, username, password } = this.state;
-    fetch('http://localhost:4000/register', {
+    fetch('http://localhost:4000/auth/register', {
       method: 'POST',
       crossDomain: true,
       headers: {

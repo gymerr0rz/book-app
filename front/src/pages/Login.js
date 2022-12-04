@@ -18,8 +18,7 @@ export default class LoginPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { email, password, username } = this.state;
-    console.log(email, password, username);
-    fetch('http://localhost:4000/login', {
+    fetch('http://localhost:4000/auth/login', {
       method: 'POST',
       crossDomain: true,
       headers: {

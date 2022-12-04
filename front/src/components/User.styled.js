@@ -15,13 +15,6 @@ const ProfileContainer = styled.div`
     font-family: 'Jetbrains Mono';
     font-size: 1rem;
   }
-  a {
-    transition: color 0.2s ease;
-  }
-  a:hover {
-    color: #6c63ff;
-    transition: color 0.2s ease;
-  }
 
   .login a {
     font-weight: normal;
@@ -32,6 +25,12 @@ const ProfileContainer = styled.div`
     padding: 0 5px;
     cursor: pointer;
     color: #6c63ff;
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+  }
+  span:hover {
+    color: #353177;
+    transition: color 0.2s ease;
   }
 `;
 

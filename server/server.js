@@ -1,10 +1,10 @@
 const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
-const routesPoints = require('./routes/routes');
+const uploadRouter = require('./routes/upload');
 const cors = require('cors');
 const methodOverride = require('method-override');
-let database;
+const authRouter = require('./routes/auth');
 
 mongoose
   .connect(process.env.MONGO_LOCAL, {
@@ -26,7 +26,8 @@ app.use(
   })
 );
 app.use(cors());
-app.use('/', routesPoints);
+app.use('/', uploadRouter);
+app.use('/auth/', authRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on ${process.env.PORT}`);

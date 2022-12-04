@@ -18,8 +18,17 @@ const NavLinksStyled = styled.div`
   font-family: 'Jetbrains Mono';
   ul {
     display: flex;
+    justify-content: center;
+    align-items: center;
     list-style: none;
   }
+  .block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   li {
     text-transform: uppercase;
     padding: 1rem;

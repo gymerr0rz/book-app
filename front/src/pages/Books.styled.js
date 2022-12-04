@@ -14,7 +14,7 @@ const BooksContainer = styled.div`
   overflow: hidden;
   #drop_zone {
     border: 2px dotted #6c63ff;
-    padding: 250px 200px;
+    padding: 230px 100px;
     z-index: 1;
   }
 

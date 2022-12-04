@@ -22,9 +22,18 @@ const BooksDisplay = () => {
       console.log(data);
     });
 
-  // Changes the page
-  function changePage() {
-    setPageNumber(25);
+  // Next page
+  function nextPage() {
+    let a = pageNumber;
+    a++;
+    setPageNumber(a);
+  }
+
+  // Prev page
+  function prevPage() {
+    let a = pageNumber;
+    a--;
+    setPageNumber(a);
   }
 
   return (
@@ -36,10 +45,10 @@ const BooksDisplay = () => {
         Page {pageNumber} of {numPages}
       </p>
       <Container>
-        <Buttons className="prev-page">
+        <Buttons className="prev-page" onClick={prevPage}>
           <i class="fa fa-chevron-left" aria-hidden="true"></i>
         </Buttons>
-        <Buttons className="next-page" onClick={changePage}>
+        <Buttons className="next-page" onClick={nextPage}>
           <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </Buttons>
       </Container>

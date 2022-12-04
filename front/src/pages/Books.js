@@ -3,7 +3,6 @@ import { BooksContainer } from './Books.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BooksDisplay } from '../components/BooksDisplay';
 export default class BooksPage extends Component {
   constructor(props) {
     super(props);
@@ -74,7 +73,7 @@ export default class BooksPage extends Component {
     console.log(e.target.files[0]);
     let formData = new FormData();
     formData.append('file', e.target.files[0]);
-    fetch(`http://localhost:4000/uploadBook`, {
+    fetch('http://localhost:4000/uploadBook', {
       method: 'POST',
       'Content-Type': 'multipart/form-data',
       body: formData,
@@ -87,6 +86,14 @@ export default class BooksPage extends Component {
   }
 
   isBooks() {
+    fetch('http://localhost:4000/getBooks', {
+      method: 'GET',
+    })
+      .then((res) => {
+        res.json();
+      })
+      .then((data) => console.log(data, typeof data));
+
     return (
       <>
         <div
@@ -94,7 +101,6 @@ export default class BooksPage extends Component {
           onDrop={(e) => this.dropHandler(e)}
           onDragOver={(e) => this.dragOverHandler(e)}
         >
-          <BooksDisplay />
           <img src={img} alt="hello" />
           <div className="books-text">
             <h1>Wanna read a book?</h1>

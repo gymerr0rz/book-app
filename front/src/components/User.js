@@ -22,7 +22,7 @@ export default class User extends Component {
     const token = localStorage.getItem('token');
 
     if (token) {
-      fetch('http://localhost:4000/userData', {
+      fetch('http://localhost:4000/auth/userData', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export default class User extends Component {
         .then((data) => {
           this.state.username = data.data.username;
           const loginName = document.querySelector('.login');
-          loginName.innerHTML = `<p>Welcome back,<a>${this.state.username}!</a></p><span>Log Out</span>`;
+          loginName.innerHTML = `<p><a>${this.state.username}</a></p><span>Log Out</span>`;
           const logoutBtn = loginName.querySelector('span');
           logoutBtn.addEventListener('click', () => {
             this.handleClick();

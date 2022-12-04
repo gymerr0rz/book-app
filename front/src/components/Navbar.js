@@ -7,18 +7,33 @@ import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 const Navbar = () => {
   return (
     <Container className="navBar">
-      <NavLinksStyled className="navLinks">
-        <ul>
-          <CustomLink to="/">Home</CustomLink>
-          <CustomLink to="/books">Books</CustomLink>
-          <CustomLink to="/history">History</CustomLink>
-        </ul>
-      </NavLinksStyled>
       <LogoStyled className="logo">
         <CustomLink to="/">
           <img src={Logo} alt="Logo" />{' '}
         </CustomLink>
       </LogoStyled>
+      <NavLinksStyled className="navLinks">
+        <ul>
+          <CustomLink to="/">
+            <span className="block">
+              <i class="fa fa-house"></i>
+              Home
+            </span>
+          </CustomLink>
+          <CustomLink to="/books">
+            <span className="block">
+              <i class="fa fa-book-open"></i>
+              Books
+            </span>
+          </CustomLink>
+          <CustomLink to="/history">
+            <span className="block">
+              <i class="fa fa-history"></i>
+              History
+            </span>
+          </CustomLink>
+        </ul>
+      </NavLinksStyled>
       <User />
     </Container>
   );
