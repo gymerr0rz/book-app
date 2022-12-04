@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-between;
   padding: 0 100px;
+  justify-content: space-between;
   align-items: center;
   width: 100vw;
   height: 154px;
@@ -11,6 +11,17 @@ const Container = styled.div`
   p,
   a {
     color: #fff;
+  }
+  .navLinks li {
+    text-transform: uppercase;
+    padding: 1rem;
+  }
+  .navLinks li a {
+    transition: color 0.2s ease;
+  }
+  .navLinks li a:hover {
+    color: #6c63ff;
+    transition: color 0.2s ease;
   }
 `;
 
@@ -28,23 +39,13 @@ const NavLinksStyled = styled.div`
     justify-content: center;
     align-items: center;
   }
-
-  li {
-    text-transform: uppercase;
-    padding: 1rem;
-  }
-  li a {
-    transition: color 0.2s ease;
-  }
-  li a:hover {
-    color: #6c63ff;
-    transition: color 0.2s ease;
-  }
 `;
 
 const LogoStyled = styled.div`
   img {
+    display: inline-block;
     height: 90px;
+    width: 90px;
   }
 `;
 

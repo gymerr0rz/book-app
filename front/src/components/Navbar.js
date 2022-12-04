@@ -6,10 +6,10 @@ import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <Container className="navBar">
-      <LogoStyled className="logo">
+    <Container>
+      <LogoStyled>
         <CustomLink to="/">
-          <img src={Logo} alt="Logo" />{' '}
+          <img src={Logo} alt="Logo" />
         </CustomLink>
       </LogoStyled>
       <NavLinksStyled className="navLinks">
