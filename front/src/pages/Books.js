@@ -97,24 +97,34 @@ export default class BooksPage extends Component {
 
   isBooks() {
     function getCover(book) {
-      fetch('https://www.googleapis.com/books/v1/volumes?q=canthurtme', {
+      fetch('https://www.googleapis.com/books/v1/volumes?q=' + book, {
         method: 'GET',
       })
         .then((res) => res.json())
         .then((data) => {
-          const thumbnail = data.items[0];
-          console.log(thumbnail);
+          const item = data.items[0];
+          const thumnail = item;
+          const title = item.volumeInfo.title;
+          if (book == title) {
+            console.log('Book not found!');
+          } else {
+            console.log(thumnail);
+          }
         });
     }
 
-    getCover();
     fetch('http://localhost:4000/getBooks', {
       method: 'GET',
+      'Content-Type': 'application/json',
+      Accept: '*/*',
     })
-      .then((res) => {
-        res.json();
-      })
-      .then((data) => console.log(data, typeof data));
+      .then((res) => res.json())
+      .then((data) =>
+        data.forEach((a) => {
+          console.log(a);
+          getCover(a.Title);
+        })
+      );
 
     return (
       <>

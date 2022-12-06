@@ -8,6 +8,7 @@ const Grid = require('gridfs-stream');
 const conn = mongoose.createConnection(process.env.MONGO_LOCAL);
 const upload = require('../middleware/uploadBook');
 const Book = mongoose.model('Book');
+const pdf = require('pdf-parse');
 let gfs;
 
 conn.once('open', () => {
@@ -30,11 +31,15 @@ function getCoverArt(file) {
 router.get('/getBooks', (req, res) => {
   const readDir = fs.readdirSync('./books');
   const arr = [];
-  readDir.forEach((pdf) => {
-    let a = fs.readFileSync('./books/' + pdf);
-    arr.push(a);
+  readDir.forEach((book) => {
+    let a = fs.readFileSync('./books/' + book);
+    pdf(a)
+      .then((file) => arr.push(file.info))
+      .catch((err) => console.log(err));
   });
-  res.send(arr);
+  setTimeout(() => {
+    res.send(arr);
+  }, 5000);
 });
 
 module.exports = router;

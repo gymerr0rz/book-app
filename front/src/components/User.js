@@ -53,9 +53,6 @@ export default class User extends Component {
         <ProfileAvatarContainer>
           <ProfileAvatar src={profileAvatar} alt="test" />
         </ProfileAvatarContainer>
-        <Link to="/settings">
-          <i class="fa-solid fa-gear"></i>
-        </Link>
       </ProfileContainer>
     );
   }
