@@ -7,7 +7,6 @@ require('../schemas/BookSchema');
 const Grid = require('gridfs-stream');
 const conn = mongoose.createConnection(process.env.MONGO_LOCAL);
 const upload = require('../middleware/uploadBook');
-const pdf = require('pdf-parse');
 const Book = mongoose.model('Book');
 let gfs;
 
@@ -20,29 +19,22 @@ conn.once('open', () => {
 router.post('/uploadBook', upload.single('file'), (req, res) => {
   console.log(req.file);
   res.json({ file: req.file });
-  Book.create({
-    data: req.file,
-  });
 });
 
+function getCoverArt(file) {
+  exportImages(file, 'covers')
+    .then((images) => console.log('Exported', images.length, 'images'))
+    .catch(console.error);
+}
+
 router.get('/getBooks', (req, res) => {
-  function toArrayBuffer(buf) {
-    const ab = new ArrayBuffer(buf.length);
-    const view = new Uint8Array(ab);
-    for (let i = 0; i < buf.length; ++i) {
-      view[i] = buf[i];
-    }
-    return ab;
-  }
+  const readDir = fs.readdirSync('./books');
   const arr = [];
-  const files = fs.readdirSync('./books');
-  files.forEach((file) => {
-    const fi = fs.readFileSync('./books/' + file);
-    arr.push(fi);
+  readDir.forEach((pdf) => {
+    let a = fs.readFileSync('./books/' + pdf);
+    arr.push(a);
   });
-  setTimeout(() => {
-    res.status(200).send(arr);
-  }, 2000);
+  res.send(arr);
 });
 
 module.exports = router;

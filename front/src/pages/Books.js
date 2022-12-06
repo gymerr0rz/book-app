@@ -85,7 +85,29 @@ export default class BooksPage extends Component {
       });
   }
 
+  getCover() {
+    fetch('https://www.googleapis.com/books/v1/volumes?q=isbn', {
+      method: 'GET',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }
+
   isBooks() {
+    function getCover(book) {
+      fetch('https://www.googleapis.com/books/v1/volumes?q=canthurtme', {
+        method: 'GET',
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const thumbnail = data.items[0];
+          console.log(thumbnail);
+        });
+    }
+
+    getCover();
     fetch('http://localhost:4000/getBooks', {
       method: 'GET',
     })
