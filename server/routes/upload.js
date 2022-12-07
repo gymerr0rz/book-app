@@ -39,7 +39,7 @@ router.get('/getBooks', (req, res) => {
   });
   setTimeout(() => {
     res.send(arr);
-  }, 5000);
+  }, 4000);
 });
 
 module.exports = router;

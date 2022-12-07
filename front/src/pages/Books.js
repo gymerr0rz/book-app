@@ -3,6 +3,17 @@ import { BooksContainer } from './Books.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const options = {
+  position: 'top-right',
+  autoClose: 3000,
+  hideProgressBar: true,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'dark',
+};
 export default class BooksPage extends Component {
   constructor(props) {
     super(props);
@@ -45,16 +56,7 @@ export default class BooksPage extends Component {
           [...ev.dataTransfer.files].forEach((file, i) => {
             console.log(`… file[${i}].name = ${file.name}`);
             console.log(file);
-            toast.error('The file needs to be PDF format.', {
-              position: 'top-right',
-              autoClose: 3000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'dark',
-            });
+            toast.error('The file needs to be PDF format.', options);
           });
         }
       });
@@ -85,17 +87,25 @@ export default class BooksPage extends Component {
       });
   }
 
-  getCover() {
-    fetch('https://www.googleapis.com/books/v1/volumes?q=isbn', {
-      method: 'GET',
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }
-
   isBooks() {
+    function createCard(title, image, author) {
+      const root = document.querySelector('.root');
+      root.innerHTML = ``;
+      const div = document.createElement('div');
+      div.classList.add('card');
+      const h1 = document.createElement('h1');
+      h1.innerText = title;
+      const p = document.createElement('p');
+      p.innerText = author;
+      const img = document.createElement('img');
+      img.src = image;
+      console.log(img);
+      div.append(h1);
+      div.append(p);
+      div.append(img);
+      root.append(div);
+    }
+
     function getCover(book) {
       fetch('https://www.googleapis.com/books/v1/volumes?q=' + book, {
         method: 'GET',
@@ -103,12 +113,15 @@ export default class BooksPage extends Component {
         .then((res) => res.json())
         .then((data) => {
           const item = data.items[0];
-          const thumnail = item;
-          const title = item.volumeInfo.title;
-          if (book == title) {
-            console.log('Book not found!');
+          const title = JSON.stringify(item.volumeInfo.title);
+          const author = JSON.stringify(item.volumeInfo.authors[0]);
+          const thumbnail = item.volumeInfo.imageLinks.thumbnail;
+          console.log(item.volumeInfo);
+          const compareTitle = JSON.stringify(book);
+          if (compareTitle !== title) {
+            toast.error(book + ' is not found!', options);
           } else {
-            console.log(thumnail);
+            createCard(title, thumbnail, author);
           }
         });
     }
@@ -121,7 +134,6 @@ export default class BooksPage extends Component {
       .then((res) => res.json())
       .then((data) =>
         data.forEach((a) => {
-          console.log(a);
           getCover(a.Title);
         })
       );
