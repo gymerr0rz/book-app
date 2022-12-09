@@ -99,10 +99,9 @@ export default class BooksPage extends Component {
       p.innerText = author;
       const img = document.createElement('img');
       img.src = image;
-      console.log(img);
+      div.append(img);
       div.append(h1);
       div.append(p);
-      div.append(img);
       root.append(div);
     }
 
@@ -121,7 +120,11 @@ export default class BooksPage extends Component {
           if (compareTitle !== title) {
             toast.error(book + ' is not found!', options);
           } else {
-            createCard(title, thumbnail, author);
+            createCard(
+              item.volumeInfo.title,
+              thumbnail,
+              item.volumeInfo.authors[0]
+            );
           }
         });
     }
@@ -145,7 +148,7 @@ export default class BooksPage extends Component {
           onDrop={(e) => this.dropHandler(e)}
           onDragOver={(e) => this.dragOverHandler(e)}
         >
-          <img src={img} alt="hello" />
+          <img className="back-image" src={img} alt="hello" />
           <div className="books-text">
             <h1>Wanna read a book?</h1>
             <p>

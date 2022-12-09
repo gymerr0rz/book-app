@@ -17,16 +17,11 @@ conn.once('open', () => {
   return gfs;
 });
 
+// Recives file from front-end and stores into /books
 router.post('/uploadBook', upload.single('file'), (req, res) => {
   console.log(req.file);
   res.json({ file: req.file });
 });
-
-function getCoverArt(file) {
-  exportImages(file, 'covers')
-    .then((images) => console.log('Exported', images.length, 'images'))
-    .catch(console.error);
-}
 
 // Receives books and sends them to the front-end
 router.get('/getBooks', (req, res) => {

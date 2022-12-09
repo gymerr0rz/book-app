@@ -56,7 +56,7 @@ const BooksContainer = styled.div`
     transition: transform 0.1s ease;
   }
 
-  img {
+  .back-image {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -124,6 +124,14 @@ const BooksContainer = styled.div`
     }
 
     p {
+    }
+
+    .card {
+      h1 {
+        font-size: 2rem;
+      }
+      img {
+      }
     }
   }
 `;
