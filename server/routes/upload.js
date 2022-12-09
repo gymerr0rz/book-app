@@ -28,6 +28,7 @@ function getCoverArt(file) {
     .catch(console.error);
 }
 
+// Receives books and sends them to the front-end
 router.get('/getBooks', (req, res) => {
   const readDir = fs.readdirSync('./books');
   const arr = [];
