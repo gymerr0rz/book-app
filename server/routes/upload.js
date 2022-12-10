@@ -17,7 +17,7 @@ conn.once('open', () => {
   return gfs;
 });
 
-// Recives file from front-end and stores into /books
+// Recieves file from front-end and stores into /books
 router.post('/uploadBook', upload.single('file'), (req, res) => {
   console.log(req.file);
   res.json({ file: req.file });

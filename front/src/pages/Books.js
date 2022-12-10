@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BooksContainer } from './Books.styled';
+import { Book, BooksContainer } from './Books.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -88,8 +88,10 @@ export default class BooksPage extends Component {
   }
 
   isBooks() {
+    // Creates HTML for the book card
     function createCard(title, image, author) {
       const root = document.querySelector('.root');
+      root.classList.add('active');
       root.innerHTML = ``;
       const div = document.createElement('div');
       div.classList.add('card');
@@ -105,6 +107,7 @@ export default class BooksPage extends Component {
       root.append(div);
     }
 
+    // Get covers from GOOGLE API by comparing book name and then rendering cover
     function getCover(book) {
       fetch('https://www.googleapis.com/books/v1/volumes?q=' + book, {
         method: 'GET',
@@ -129,6 +132,7 @@ export default class BooksPage extends Component {
         });
     }
 
+    //  Gets book that have been uploaded from back-end
     fetch('http://localhost:4000/getBooks', {
       method: 'GET',
       'Content-Type': 'application/json',
@@ -176,7 +180,9 @@ export default class BooksPage extends Component {
     return (
       <>
         <ToastContainer />
-        <BooksContainer className="root">{this.isBooks()}</BooksContainer>
+        <Book className="root">
+          <BooksContainer>{this.isBooks()}</BooksContainer>
+        </Book>
       </>
     );
   }

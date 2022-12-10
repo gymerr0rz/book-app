@@ -136,4 +136,14 @@ const BooksContainer = styled.div`
   }
 `;
 
-export { BooksContainer };
+const Book = styled.div`
+  &.active {
+    height: 100vw;
+    width: 100vw;
+    background-color: red;
+    .card {
+    }
+  }
+`;
+
+export { BooksContainer, Book };
