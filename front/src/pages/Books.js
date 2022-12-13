@@ -131,6 +131,7 @@ export default class BooksPage extends Component {
         .then((res) => res.json())
         .then((data) => {
           const item = data.items[0];
+          console.log(item);
           const title = JSON.stringify(item.volumeInfo.title);
           const author = JSON.stringify(item.volumeInfo.authors[0]);
           const thumbnail = item.volumeInfo.imageLinks.thumbnail;
@@ -155,11 +156,12 @@ export default class BooksPage extends Component {
       Accept: '*/*',
     })
       .then((res) => res.json())
-      .then((data) =>
-        data.forEach((a) => {
-          getCover(a.Title);
-        })
-      );
+      .then((data) => {
+        data.forEach(async (a) => {
+          const bookTitle = a.title;
+          await getCover(bookTitle, a.author);
+        });
+      });
 
     return (
       <>
