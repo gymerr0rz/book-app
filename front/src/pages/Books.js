@@ -89,10 +89,26 @@ export default class BooksPage extends Component {
 
   isBooks() {
     // Creates HTML for the book card
+    const searchBox = `          
+    <div className="search-div">
+      <div className="search-box">
+          <input type="text" placeholder="Genre, author, or book name" />
+          <i class="fa fa-search"></i>
+      </div>
+          <input
+                id="file-upload"
+                type="file"
+                name="file"
+                onChange=${(e) => this.uploadFile(e)}
+              />
+    </div>`;
+
     function createCard(title, image, author) {
+      const main = document.querySelector('.main');
+      main.classList.remove('active');
       const root = document.querySelector('.root');
       root.classList.add('active');
-      root.innerHTML = ``;
+      root.innerHTML = searchBox;
       const div = document.createElement('div');
       div.classList.add('card');
       const h1 = document.createElement('h1');
@@ -180,9 +196,10 @@ export default class BooksPage extends Component {
     return (
       <>
         <ToastContainer />
-        <Book className="root">
-          <BooksContainer>{this.isBooks()}</BooksContainer>
-        </Book>
+        <Book className="root"></Book>
+        <BooksContainer className="main active">
+          {this.isBooks()}
+        </BooksContainer>
       </>
     );
   }

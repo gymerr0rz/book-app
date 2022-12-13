@@ -8,7 +8,8 @@ const Grid = require('gridfs-stream');
 const conn = mongoose.createConnection(process.env.MONGO_LOCAL);
 const upload = require('../middleware/uploadBook');
 const Book = mongoose.model('Book');
-const pdf = require('pdf-parse');
+// const { PDFDocumentProxy } = require('pdfjs-dist');
+const { PDFDocument } = require('pdf-lib');
 let gfs;
 
 conn.once('open', () => {
@@ -27,15 +28,17 @@ router.post('/uploadBook', upload.single('file'), (req, res) => {
 router.get('/getBooks', (req, res) => {
   const readDir = fs.readdirSync('./books');
   const arr = [];
-  readDir.forEach((book) => {
+  readDir.forEach(async (book) => {
     let a = fs.readFileSync('./books/' + book);
-    pdf(a)
-      .then((file) => arr.push(file.info))
-      .catch((err) => console.log(err));
+    let pdfDoc = await PDFDocument.load(a);
+    let pdfAuthor = pdfDoc.getAuthor();
+    let pdfTitle = pdfDoc.getTitle();
+    let pdfPages = pdfDoc.getPageCount();
+    arr.push({ author: pdfAuthor, title: pdfTitle, pages: pdfPages });
   });
   setTimeout(() => {
     res.send(arr);
-  }, 4000);
+  }, 1000);
 });
 
 module.exports = router;
