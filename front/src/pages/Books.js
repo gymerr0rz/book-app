@@ -137,7 +137,7 @@ export default class BooksPage extends Component {
           const thumbnail = item.volumeInfo.imageLinks.thumbnail;
           console.log(item.volumeInfo);
           const compareTitle = JSON.stringify(book);
-          if (compareTitle !== title) {
+          if (false) {
             toast.error(book + ' is not found!', options);
           } else {
             createCard(
@@ -157,9 +157,9 @@ export default class BooksPage extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        data.forEach(async (a) => {
+        data.forEach((a) => {
           const bookTitle = a.title;
-          await getCover(bookTitle, a.author);
+          getCover(bookTitle, a.author);
         });
       });
 
