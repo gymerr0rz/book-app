@@ -203,14 +203,22 @@ const Book = styled.div`
       width: 100vw;
       height: 437px;
       .card {
+        cursor: pointer;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 437px;
         width: 281px;
+        border-radius: 25px;
+        transition: 0.2s background-color ease;
         &:first-child {
           margin-left: 80px;
+        }
+        &:hover {
+          transition: 0.3s background-color ease;
+          background-color: #222230;
+          border-radius: 25px;
         }
         margin: 0 21px 0 0;
         img {
@@ -219,6 +227,7 @@ const Book = styled.div`
           border-radius: 20px;
         }
         h1 {
+          margin: 10px 0 0 0;
           font-size: 20px;
           font-family: 'Overpass';
           color: #fff;
