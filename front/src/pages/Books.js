@@ -88,27 +88,12 @@ export default class BooksPage extends Component {
   }
 
   isBooks() {
-    // Creates HTML for the book card
-    const searchBox = `          
-    <div className="search-div">
-      <div className="search-box">
-          <input type="text" placeholder="Genre, author, or book name" />
-          <i class="fa fa-search"></i>
-      </div>
-          <input
-                id="file-upload"
-                type="file"
-                name="file"
-                onChange=${(e) => this.uploadFile(e)}
-              />
-    </div>`;
-
     function createCard(title, image, author) {
       const main = document.querySelector('.main');
+      const books = document.querySelector('.books');
       main.classList.remove('active');
       const root = document.querySelector('.root');
       root.classList.add('active');
-      root.innerHTML = searchBox;
       const div = document.createElement('div');
       div.classList.add('card');
       const h1 = document.createElement('h1');
@@ -120,33 +105,7 @@ export default class BooksPage extends Component {
       div.append(img);
       div.append(h1);
       div.append(p);
-      root.append(div);
-    }
-
-    // Get covers from GOOGLE API by comparing book name and then rendering cover
-    function getCover(book) {
-      fetch('https://www.googleapis.com/books/v1/volumes?q=' + book, {
-        method: 'GET',
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          const item = data.items[0];
-          console.log(item);
-          const title = JSON.stringify(item.volumeInfo.title);
-          const author = JSON.stringify(item.volumeInfo.authors[0]);
-          const thumbnail = item.volumeInfo.imageLinks.thumbnail;
-          console.log(item.volumeInfo);
-          const compareTitle = JSON.stringify(book);
-          if (false) {
-            toast.error(book + ' is not found!', options);
-          } else {
-            createCard(
-              item.volumeInfo.title,
-              thumbnail,
-              item.volumeInfo.authors[0]
-            );
-          }
-        });
+      books.append(div);
     }
 
     //  Gets book that have been uploaded from back-end
@@ -157,9 +116,11 @@ export default class BooksPage extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        data.forEach((a) => {
-          const bookTitle = a.title;
-          getCover(bookTitle, a.author);
+        data.forEach((pdf) => {
+          const title = pdf.title;
+          const thumbnail = pdf.thumbnail;
+          const author = pdf.author;
+          createCard(title, thumbnail, author);
         });
       });
 
@@ -198,7 +159,26 @@ export default class BooksPage extends Component {
     return (
       <>
         <ToastContainer />
-        <Book className="root"></Book>
+        <Book className="root">
+          <div className="search-div">
+            <div className="search-box">
+              <input type="text" placeholder="Genre, author, or book name" />
+              <i class="fa fa-search"></i>
+            </div>
+            <form class="upload">
+              <label for="file-upload" class="custom-file-upload">
+                UPLOAD
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                name="file"
+                onChange={(e) => this.uploadFile(e)}
+              />
+            </form>
+          </div>
+          <div className="books"></div>
+        </Book>
         <BooksContainer className="main active">
           {this.isBooks()}
         </BooksContainer>

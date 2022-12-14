@@ -5,10 +5,10 @@ const fs = require('fs');
 require('dotenv').config();
 require('../schemas/BookSchema');
 const Grid = require('gridfs-stream');
+const axios = require('axios');
 const conn = mongoose.createConnection(process.env.MONGO_LOCAL);
 const upload = require('../middleware/uploadBook');
 const Book = mongoose.model('Book');
-// const { PDFDocumentProxy } = require('pdfjs-dist');
 const { PDFDocument } = require('pdf-lib');
 let gfs;
 
@@ -32,13 +32,34 @@ router.get('/getBooks', (req, res) => {
     let a = fs.readFileSync('./books/' + book);
     let pdfDoc = await PDFDocument.load(a);
     let pdfAuthor = pdfDoc.getAuthor();
-    let pdfTitle = pdfDoc.getTitle();
+    let str = pdfDoc.getTitle();
+    let strSplit = str.split(' -');
+    let pdfTitle = strSplit[0];
     let pdfPages = pdfDoc.getPageCount();
-    arr.push({ author: pdfAuthor, title: pdfTitle, pages: pdfPages });
+    let file = getCover(pdfTitle);
   });
+
+  // Get covers from GOOGLE API by comparing book name and then rendering cover
+  async function getCover(book) {
+    await axios
+      .get('https://www.googleapis.com/books/v1/volumes?q=intitle:' + book)
+      .then((response) => response.data)
+      .then((data) => {
+        const item = data.items[0];
+        const title = item.volumeInfo.title;
+        const author = item.volumeInfo.authors[0];
+        const a = item.volumeInfo.imageLinks.thumbnail;
+        const b = a.split('zoom=1').join('zoom=0');
+        const c = b.split('http').join('https');
+        const thumbnail = c;
+        console.log(a);
+        const compareTitle = book;
+        arr.push({ title, author, thumbnail, compareTitle });
+      });
+  }
   setTimeout(() => {
     res.send(arr);
-  }, 1000);
+  }, 3000);
 });
 
 module.exports = router;

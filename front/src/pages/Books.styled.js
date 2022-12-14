@@ -142,19 +142,93 @@ const BooksContainer = styled.div`
 const Book = styled.div`
   display: none;
   &.active {
-    display: contents;
-    height: 100vw;
+    display: table;
+    height: 100vh;
     width: 100vw;
-    background-color: red;
+    background-color: rgba(16, 17, 28, 0.98);
+
+    input[type='file'] {
+      display: none;
+    }
+    .custom-file-upload {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 20px;
+      border: none;
+      background-color: #6c63ff;
+      color: #fff;
+      border-radius: 46px;
+      width: 114px;
+      height: 39px;
+      cursor: pointer;
+      font-family: 'Jua';
+      font-size: 14px;
+      text-transform: uppercase;
+    }
     .search-div {
       height: 100px;
       width: 100vw;
-      background-color: green;
+      display: flex;
+      justify-content: left;
+      align-items: center;
+      position: relative;
+      .search-box input {
+        width: 407px;
+        height: 55px;
+        display: block;
+        justify-content: left;
+        align-items: center;
+        margin: 0 20px 0 100px;
+        border: none;
+        background-color: #0d0e12;
+        border-radius: 46px;
+        padding: 0 0 0 20px;
+        color: #fff;
+        &:focus {
+          outline: none;
+        }
+      }
+      .search-box i {
+        color: #fff;
+        position: absolute;
+        left: 460px;
+        top: 40px;
+      }
     }
-    .card {
+    .books {
+      display: flex;
+      justify-content: left;
+      align-items: center;
       width: 100vw;
       height: 437px;
-      background-color: red;
+      .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 437px;
+        width: 281px;
+        &:first-child {
+          margin-left: 80px;
+        }
+        margin: 0 21px 0 0;
+        img {
+          height: 332px;
+          width: 226px;
+          border-radius: 20px;
+        }
+        h1 {
+          font-size: 20px;
+          font-family: 'Overpass';
+          color: #fff;
+        }
+        p {
+          font-size: 15px;
+          font-family: 'Overpass';
+          color: gray;
+        }
+      }
     }
   }
 `;
