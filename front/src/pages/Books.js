@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Book, BooksContainer } from './Books.styled';
+import { Book, BooksContainer, LoadingGif } from './Books.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BooksDisplay } from '../components/BooksDisplay';
 
 const options = {
   position: 'top-right',
@@ -15,16 +16,6 @@ const options = {
   theme: 'dark',
 };
 export default class BooksPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      numPages: null,
-      setNumPages: null,
-      pageNumber: 1,
-      setPageNumber: 1,
-    };
-  }
-
   dropHandler(ev) {
     console.log('File(s) dropped');
 
@@ -88,6 +79,11 @@ export default class BooksPage extends Component {
   }
 
   isBooks() {
+    function stopLoading() {
+      const loading = document.querySelector('.loading');
+      loading.classList.remove('active');
+    }
+
     function createCard(title, image, author) {
       const main = document.querySelector('.main');
       const books = document.querySelector('.books');
@@ -106,9 +102,11 @@ export default class BooksPage extends Component {
       div.append(h1);
       div.append(p);
       books.append(div);
+      stopLoading();
     }
 
     //  Gets book that have been uploaded from back-end
+
     fetch('http://localhost:4000/getBooks', {
       method: 'GET',
       'Content-Type': 'application/json',
@@ -159,6 +157,9 @@ export default class BooksPage extends Component {
     return (
       <>
         <ToastContainer />
+        <LoadingGif className="loading active">
+          <img src="https://i.pinimg.com/originals/a2/dc/96/a2dc9668f2cf170fe3efeb263128b0e7.gif" />
+        </LoadingGif>
         <Book className="root">
           <div className="search-div">
             <div className="search-box">

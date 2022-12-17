@@ -1,5 +1,23 @@
 import styled from 'styled-components';
 
+const LoadingGif = styled.div`
+  display: none;
+  &.active {
+    display: table;
+    width: 100vw;
+    height: 90vh;
+    position: fixed;
+    z-index: 1000;
+    background-color: rgba(28, 39, 58, 1);
+  }
+  img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
+
 const BooksContainer = styled.div`
   display: none;
   &.active {
@@ -242,4 +260,4 @@ const Book = styled.div`
   }
 `;
 
-export { BooksContainer, Book };
+export { BooksContainer, Book, LoadingGif };

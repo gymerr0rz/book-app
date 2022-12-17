@@ -49,7 +49,7 @@ router.get('/getBooks', (req, res) => {
         const title = item.volumeInfo.title;
         const author = item.volumeInfo.authors[0];
         const a = item.volumeInfo.imageLinks.thumbnail;
-        const b = a.split('zoom=1').join('zoom=0');
+        const b = a.split('zoom=1').join('zoom=1');
         const c = b.split('http').join('https');
         const thumbnail = c;
         console.log(a);
