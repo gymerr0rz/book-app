@@ -52,12 +52,12 @@ router.get('/getBooks', (req, res) => {
         const b = a.split('zoom=1').join('zoom=1');
         const c = b.split('http').join('https');
         const thumbnail = c;
-        console.log(a);
         const compareTitle = book;
         arr.push({ title, author, thumbnail, compareTitle });
       });
   }
   setTimeout(() => {
+    console.log('Books send to the front end.');
     res.send(arr);
   }, 3000);
 });
