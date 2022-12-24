@@ -3,7 +3,6 @@ import { Book, BooksContainer, LoadingGif } from './Books.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BooksDisplay } from '../components/BooksDisplay';
 
 const options = {
   position: 'top-right',
@@ -98,6 +97,7 @@ export default class BooksPage extends Component {
       p.innerText = author;
       const img = document.createElement('img');
       img.src = image;
+      const link = document.createElement('Link');
       div.append(img);
       div.append(h1);
       div.append(p);
