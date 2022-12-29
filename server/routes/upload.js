@@ -10,6 +10,7 @@ const conn = mongoose.createConnection(process.env.MONGO_LOCAL);
 const upload = require('../middleware/uploadBook');
 const Book = mongoose.model('Book');
 const { PDFDocument } = require('pdf-lib');
+const bcrypt = require('bcrypt');
 let gfs;
 
 conn.once('open', () => {
@@ -44,7 +45,7 @@ router.get('/getBooks', (req, res) => {
     await axios
       .get('https://www.googleapis.com/books/v1/volumes?q=intitle:' + book)
       .then((response) => response.data)
-      .then((data) => {
+      .then(async (data) => {
         const item = data.items[0];
         const title = item.volumeInfo.title;
         const author = item.volumeInfo.authors[0];
@@ -53,7 +54,9 @@ router.get('/getBooks', (req, res) => {
         const c = b.split('http').join('https');
         const thumbnail = c;
         const compareTitle = book;
-        arr.push({ title, author, thumbnail, compareTitle });
+        const hashTitle = await bcrypt.hash(title, 5);
+        const crypto = hashTitle.split('/').join('-');
+        arr.push({ title, author, thumbnail, compareTitle, crypto });
       });
   }
   setTimeout(() => {

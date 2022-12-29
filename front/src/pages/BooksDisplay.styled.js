@@ -1,5 +1,15 @@
 import styled from 'styled-components';
 
+const BooksContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(16, 17, 28, 0.98);
+`;
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -23,4 +33,4 @@ const Buttons = styled.span`
   }
 `;
 
-export { Buttons, Container };
+export { Buttons, Container, BooksContainer };

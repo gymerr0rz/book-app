@@ -1,26 +1,22 @@
 import React, { useState } from 'react';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import book from '../assets/1669710767251.pdf';
-import { Buttons, Container } from './BooksDisplay.styled';
+import { BooksContainer, Buttons, Container } from './BooksDisplay.styled';
 
 const BooksDisplay = () => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
 
+  function removeNavBar() {
+    console.log('test');
+  }
   // If loaded get the number of PDF pages
   function onDocumentLoadSuccess({ numPages }) {
+    const html = document.getRootNode();
+    const root = html.getElementById('root').querySelector('.UgozN');
+    root.remove();
     setNumPages(numPages);
   }
-
-  // @GET
-  // desc: Fetches books from server
-  fetch('http://localhost:4000/getBooks', {
-    method: 'GET',
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-    });
 
   // Next page
   function nextPage() {
@@ -37,10 +33,11 @@ const BooksDisplay = () => {
   }
 
   return (
-    <div>
+    <BooksContainer>
       <Document file={book} onLoadSuccess={onDocumentLoadSuccess}>
         <Page pageNumber={pageNumber} pageIndex={2} />
       </Document>
+
       <p>
         Page {pageNumber} of {numPages}
       </p>
@@ -52,7 +49,7 @@ const BooksDisplay = () => {
           <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </Buttons>
       </Container>
-    </div>
+    </BooksContainer>
   );
 };
 

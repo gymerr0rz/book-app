@@ -20,7 +20,7 @@ const Navbar = () => {
               Home
             </span>
           </CustomLink>
-          <CustomLink to="/books">
+          <CustomLink to="/library">
             <span className="block">
               <i class="fa fa-book-open"></i>
               Books

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Book, BooksContainer, LoadingGif } from './Books.styled';
+import { Book, BooksContainer, LoadingGif } from './Library.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 const options = {
   position: 'top-right',
@@ -83,13 +84,18 @@ export default class BooksPage extends Component {
       loading.classList.remove('active');
     }
 
-    function createCard(title, image, author) {
+    function createCard(title, image, author, cryptedTitle) {
       const main = document.querySelector('.main');
       const books = document.querySelector('.books');
       main.classList.remove('active');
       const root = document.querySelector('.root');
       root.classList.add('active');
       const div = document.createElement('div');
+      div.addEventListener('click', (e) => {
+        const bookTitle = title.split(' ').join('-');
+        console.log('test');
+        window.open('/books/' + bookTitle);
+      });
       div.classList.add('card');
       const h1 = document.createElement('h1');
       h1.innerText = title;
@@ -97,7 +103,6 @@ export default class BooksPage extends Component {
       p.innerText = author;
       const img = document.createElement('img');
       img.src = image;
-      const link = document.createElement('Link');
       div.append(img);
       div.append(h1);
       div.append(p);
@@ -105,8 +110,7 @@ export default class BooksPage extends Component {
       stopLoading();
     }
 
-    //  Gets book that have been uploaded from back-end
-
+    // Gets book that have been uploaded from back-end
     fetch('http://localhost:4000/getBooks', {
       method: 'GET',
       'Content-Type': 'application/json',
@@ -118,7 +122,8 @@ export default class BooksPage extends Component {
           const title = pdf.title;
           const thumbnail = pdf.thumbnail;
           const author = pdf.author;
-          createCard(title, thumbnail, author);
+          const cryptedTitle = pdf.crypto;
+          createCard(title, thumbnail, author, cryptedTitle);
         });
       });
 
