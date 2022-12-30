@@ -6,15 +6,13 @@ import { BooksContainer, Buttons, Container } from './BooksDisplay.styled';
 const BooksDisplay = () => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
+  const [secondPageNumber, setsecondPageNumber] = useState(2);
 
-  function removeNavBar() {
-    console.log('test');
-  }
   // If loaded get the number of PDF pages
   function onDocumentLoadSuccess({ numPages }) {
     const html = document.getRootNode();
-    const root = html.getElementById('root').querySelector('.UgozN');
-    root.remove();
+    const navbar = html.getElementById('root').querySelector('.UgozN');
+    navbar.remove();
     setNumPages(numPages);
   }
 
@@ -23,6 +21,10 @@ const BooksDisplay = () => {
     let a = pageNumber;
     a++;
     setPageNumber(a);
+
+    let b = secondPageNumber;
+    b++;
+    setsecondPageNumber(b);
   }
 
   // Prev page
@@ -30,12 +32,20 @@ const BooksDisplay = () => {
     let a = pageNumber;
     a--;
     setPageNumber(a);
+    let b = secondPageNumber;
+    b--;
+    setsecondPageNumber(b);
   }
 
   return (
     <BooksContainer>
-      <Document file={book} onLoadSuccess={onDocumentLoadSuccess}>
+      <Document
+        className="documentStyling"
+        file={book}
+        onLoadSuccess={onDocumentLoadSuccess}
+      >
         <Page pageNumber={pageNumber} pageIndex={2} />
+        <Page pageNumber={secondPageNumber} pageIndex={2} />
       </Document>
 
       <p>

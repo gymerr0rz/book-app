@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 const BooksContainer = styled.div`
+  .documentStyling {
+    display: flex;
+    gap: 20px;
+    border-radius: 26px;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
