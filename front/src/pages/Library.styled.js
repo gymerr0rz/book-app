@@ -5,7 +5,7 @@ const LoadingGif = styled.div`
   &.active {
     display: table;
     width: 100vw;
-    height: 90vh;
+    height: 85vh;
     position: fixed;
     z-index: 1000;
     background-color: rgba(28, 39, 58, 1);
@@ -26,7 +26,7 @@ const BooksContainer = styled.div`
     align-items: center;
     gap: 190px;
     text-align: center;
-    height: 90vh;
+    height: 85vh;
     width: 100vw;
     font-family: 'Overpass';
     background-color: rgba(16, 17, 28, 0.98);
@@ -161,7 +161,7 @@ const Book = styled.div`
   display: none;
   &.active {
     display: table;
-    height: 100vh;
+    height: 85vh;
     width: 100vw;
     background-color: rgba(16, 17, 28, 0.98);
 
@@ -249,6 +249,7 @@ const Book = styled.div`
           font-size: 20px;
           font-family: 'Overpass';
           color: #fff;
+          text-align: center;
         }
         p {
           font-size: 15px;

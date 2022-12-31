@@ -5,24 +5,31 @@ const BooksContainer = styled.div`
     display: flex;
     gap: 20px;
     border-radius: 26px;
+    padding: 100px 0;
+    .pageStyling {
+      border-radius: 46px;
+    }
   }
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100vw;
-  height: 100vh;
+  height: 85vh;
+  overflow: auto;
   background-color: rgba(16, 17, 28, 0.98);
 `;
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  width: 80%;
   align-items: center;
-  height: 50px;
-  width: 100px;
-  margin: 0 auto;
-  border-radius: 46px;
+  position: absolute;
+  span {
+    border-radius: 100%;
+    padding: 20px 25px;
+  }
   span:hover {
     transition: background-color 0.3s ease;
     background-color: #2a244f;

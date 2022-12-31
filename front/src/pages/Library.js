@@ -93,7 +93,6 @@ export default class BooksPage extends Component {
       const div = document.createElement('div');
       div.addEventListener('click', (e) => {
         const bookTitle = title.split(' ').join('-');
-        console.log('test');
         window.open('/books/' + bookTitle);
       });
       div.classList.add('card');
