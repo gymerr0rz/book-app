@@ -84,7 +84,33 @@ export default class BooksPage extends Component {
       loading.classList.remove('active');
     }
 
-    function createCard(title, image, author, cryptedTitle) {
+    function createBookPage(bookTitle, bookImage, bookAuthor, bookDesc) {
+      const container = document.querySelector('.root');
+      container.innerHTML = ``;
+      const descContainer = document.createElement('div');
+      descContainer.classList.add('description');
+      const bookContainer = document.createElement('div');
+      const main = document.createElement('div');
+      main.classList.add('main');
+      const desc = document.createElement('p');
+      desc.innerText = bookDesc;
+      const title = document.createElement('h1');
+      title.innerText = bookTitle;
+      const author = document.createElement('p');
+      author.innerText = bookAuthor;
+      const image = document.createElement('img');
+      image.src = bookImage;
+      const imageContainer = document.createElement('div');
+      imageContainer.classList.add('imageContainer');
+      bookContainer.classList.add('bookInformation');
+      imageContainer.append(image);
+      descContainer.append(desc);
+      bookContainer.append(title, author, descContainer);
+      main.append(imageContainer, bookContainer);
+      container.append(main);
+    }
+
+    function createCard(title, image, author, cryptedTitle, desc) {
       const main = document.querySelector('.main');
       const books = document.querySelector('.books');
       main.classList.remove('active');
@@ -92,8 +118,7 @@ export default class BooksPage extends Component {
       root.classList.add('active');
       const div = document.createElement('div');
       div.addEventListener('click', (e) => {
-        const bookTitle = title.split(' ').join('-');
-        window.open('/books/' + bookTitle);
+        createBookPage(title, image, author, desc);
       });
       div.classList.add('card');
       const h1 = document.createElement('h1');
@@ -122,7 +147,8 @@ export default class BooksPage extends Component {
           const thumbnail = pdf.thumbnail;
           const author = pdf.author;
           const cryptedTitle = pdf.crypto;
-          createCard(title, thumbnail, author, cryptedTitle);
+          const desc = pdf.desc;
+          createCard(title, thumbnail, author, cryptedTitle, desc);
         });
       });
 

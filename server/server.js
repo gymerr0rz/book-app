@@ -7,7 +7,7 @@ const methodOverride = require('method-override');
 const authRouter = require('./routes/auth');
 
 mongoose
-  .connect(process.env.MONGO_LOCAL, {
+  .connect(process.env.MONGO_SERVER, {
     useNewUrlParser: true,
   })
   .then((db) => {

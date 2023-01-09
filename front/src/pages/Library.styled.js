@@ -258,6 +258,48 @@ const Book = styled.div`
         }
       }
     }
+    /* Open Book */
+    .main {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      padding: 61px 100px 0 100px;
+      .imageContainer {
+        img {
+          width: 362px;
+          height: 385px;
+          border-radius: 50px;
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+      .bookInformation {
+        margin-left: 46px;
+        h1 {
+          font-family: 'Jua';
+          color: #fff;
+          font-size: 96px;
+        }
+        p {
+          font-family: 'Overpass';
+          font-size: 20px;
+          color: #fff;
+        }
+        .description {
+          width: 733px;
+          height: 239px;
+          background-color: rgba(0, 0, 0, 0.5);
+          overflow: auto;
+          padding: 20px;
+          p {
+            font-family: 'JetBrains Mono';
+            color: #fff;
+            font-size: 16px;
+          }
+        }
+      }
+    }
   }
 `;
 

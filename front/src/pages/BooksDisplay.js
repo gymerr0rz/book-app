@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
-import book from '../assets/1669710767251.pdf';
 import { BooksContainer, Buttons, Container } from './BooksDisplay.styled';
 import axios from 'axios';
+import book from '../assets/1669710767251.pdf';
 
 const BooksDisplay = () => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [secondPageNumber, setsecondPageNumber] = useState(2);
 
-  axios.post('http://localhost:4000/whichBookOpened', {
-    bookName: window.location.pathname,
-  });
+  async function getBookPath() {
+    await axios
+      .post('http://localhost:4000/whichBookOpened', {
+        bookName: window.location.pathname,
+      })
+      .then((data) => {
+        return data;
+      });
+  }
+
+  getBookPath();
 
   // If loaded get the number of PDF pages
   function onDocumentLoadSuccess({ numPages }) {
@@ -43,7 +51,9 @@ const BooksDisplay = () => {
     <BooksContainer>
       <Document
         className="documentStyling"
-        file={book}
+        file={async (e) => {
+          await getBookPath();
+        }}
         onLoadSuccess={onDocumentLoadSuccess}
       >
         <Page className="pageStyling" pageNumber={pageNumber} pageIndex={2} />
