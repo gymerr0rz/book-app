@@ -103,10 +103,20 @@ export default class BooksPage extends Component {
       const imageContainer = document.createElement('div');
       imageContainer.classList.add('imageContainer');
       bookContainer.classList.add('bookInformation');
+      const listenButton = document.createElement('button');
+      const readButton = document.createElement('button');
+      const flexDiv = document.createElement('div');
+      flexDiv.classList.add('flex');
+      listenButton.innerText = 'Listen to a audiobook';
+      readButton.innerText = 'Read a book';
       imageContainer.append(image);
       descContainer.append(desc);
       bookContainer.append(title, author, descContainer);
-      main.append(imageContainer, bookContainer);
+      flexDiv.append(imageContainer, bookContainer);
+      const buttonContainer = document.createElement('div');
+      buttonContainer.classList.add('buttons');
+      buttonContainer.append(listenButton, readButton);
+      main.append(flexDiv, buttonContainer);
       container.append(main);
     }
 

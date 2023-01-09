@@ -262,40 +262,62 @@ const Book = styled.div`
     .main {
       height: 100%;
       width: 100%;
-      display: flex;
-      flex-direction: row;
-      padding: 61px 100px 0 100px;
-      .imageContainer {
-        img {
-          width: 362px;
-          height: 385px;
+      .buttons {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        button {
+          margin: 10px 130px;
           border-radius: 50px;
-          object-fit: cover;
-          object-position: center;
+          width: 303px;
+          height: 67px;
+          border: none;
+          background-color: #6c63ff;
+          color: #fff;
+          font-family: 'Jua';
+          text-transform: uppercase;
+          font-size: 20px;
+          cursor: pointer;
         }
       }
-      .bookInformation {
-        margin-left: 46px;
-        h1 {
-          font-family: 'Jua';
-          color: #fff;
-          font-size: 96px;
+      .flex {
+        display: flex;
+        flex-direction: row;
+        padding: 61px 100px 0 100px;
+        .imageContainer {
+          img {
+            width: 362px;
+            height: 385px;
+            border-radius: 50px;
+            object-fit: cover;
+            object-position: center;
+          }
         }
-        p {
-          font-family: 'Overpass';
-          font-size: 20px;
-          color: #fff;
-        }
-        .description {
-          width: 733px;
-          height: 239px;
-          background-color: rgba(0, 0, 0, 0.5);
-          overflow: auto;
-          padding: 20px;
-          p {
-            font-family: 'JetBrains Mono';
+        .bookInformation {
+          margin-left: 46px;
+          h1 {
+            font-family: 'Jua';
             color: #fff;
-            font-size: 16px;
+            font-size: 96px;
+          }
+          p {
+            font-family: 'Overpass';
+            font-size: 20px;
+            color: #fff;
+          }
+          .description {
+            width: 733px;
+            height: 239px;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+            padding: 20px;
+            p {
+              font-family: 'JetBrains Mono';
+              color: #fff;
+              font-size: 16px;
+            }
           }
         }
       }
