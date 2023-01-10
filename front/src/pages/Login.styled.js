@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const LoginContainer = styled.div`
   position: relative;
   width: 100vw;
-  height: 90vh;
+  height: 85vh;
   background-color: rgba(16, 17, 28, 0.98);
 `;
 

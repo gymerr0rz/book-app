@@ -12,3 +12,7 @@ p {
   text-decoration: none;
   color: #000;
 }
+
+.container {
+  overflow: hidden;
+}

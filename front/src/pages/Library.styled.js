@@ -262,6 +262,7 @@ const Book = styled.div`
     .main {
       height: 100%;
       width: 100%;
+      overflow: hidden;
       .buttons {
         margin-top: 30px;
         display: flex;
@@ -286,6 +287,8 @@ const Book = styled.div`
         display: flex;
         flex-direction: row;
         padding: 61px 100px 0 100px;
+        height: 450px;
+        width: 100%;
         .imageContainer {
           img {
             width: 362px;
@@ -301,11 +304,13 @@ const Book = styled.div`
             font-family: 'Jua';
             color: #fff;
             font-size: 96px;
+            white-space: nowrap;
           }
           p {
             font-family: 'Overpass';
             font-size: 20px;
             color: #fff;
+            margin: 20px 0;
           }
           .description {
             width: 733px;
@@ -317,6 +322,7 @@ const Book = styled.div`
               font-family: 'JetBrains Mono';
               color: #fff;
               font-size: 16px;
+              margin: 0;
             }
           }
         }

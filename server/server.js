@@ -10,7 +10,7 @@ mongoose
   .connect(process.env.MONGO_SERVER, {
     useNewUrlParser: true,
   })
-  .then((db) => {
+  .then(() => {
     console.log('Database connected...');
   });
 
