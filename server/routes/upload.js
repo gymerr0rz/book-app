@@ -61,6 +61,10 @@ router.get('/getBooks', (req, res) => {
         let strSplit = str.split(' -');
         let pdfTitle = strSplit[0];
         getCover(pdfTitle);
+      } else if (str.includes(':')) {
+        let strSplit = str.split(':');
+        let pdfTitle = strSplit[0] + 'by ' + pdfAuthor;
+        getCover(pdfTitle);
       } else {
         getCover(str);
       }

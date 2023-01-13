@@ -97,7 +97,7 @@ export default class BooksPage extends Component {
       const title = document.createElement('h1');
       title.innerText = bookTitle;
       const author = document.createElement('p');
-      author.innerText = bookAuthor;
+      author.innerText = 'by ' + bookAuthor;
       const image = document.createElement('img');
       image.src = bookImage;
       const imageContainer = document.createElement('div');

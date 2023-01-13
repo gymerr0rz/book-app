@@ -271,15 +271,15 @@ const Book = styled.div`
         align-items: flex-start;
         button {
           margin: 10px 130px;
-          border-radius: 50px;
+          border-radius: 10px;
           width: 303px;
           height: 67px;
-          border: none;
-          background-color: #6c63ff;
+          border: #3e3e3e 1px solid;
+          background-color: rgba(102, 102, 102, 0.2);
           color: #fff;
           font-family: 'Jua';
           text-transform: uppercase;
-          font-size: 20px;
+          font-size: 15px;
           cursor: pointer;
         }
       }
@@ -287,12 +287,13 @@ const Book = styled.div`
         display: flex;
         flex-direction: row;
         padding: 61px 100px 0 100px;
-        height: 450px;
+        height: 550px;
         width: 100%;
+        overflow: hidden;
         .imageContainer {
           img {
             width: 362px;
-            height: 385px;
+            height: 100%;
             border-radius: 50px;
             object-fit: cover;
             object-position: center;
@@ -309,12 +310,12 @@ const Book = styled.div`
           p {
             font-family: 'Overpass';
             font-size: 20px;
-            color: #fff;
-            margin: 20px 0;
+            color: #8d8d8d;
           }
           .description {
+            margin-top: 20px;
             width: 733px;
-            height: 239px;
+            height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             overflow: auto;
             padding: 20px;
