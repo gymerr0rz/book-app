@@ -185,6 +185,7 @@ const Book = styled.div`
       text-transform: uppercase;
     }
     .search-div {
+      z-index: 10;
       height: 100px;
       width: 100vw;
       display: flex;
@@ -260,9 +261,24 @@ const Book = styled.div`
     }
     /* Open Book */
     .main {
-      height: 100%;
       width: 100%;
       overflow: hidden;
+      background-color: transparent;
+      .center {
+        z-index: 20;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 1842px;
+        height: 803px;
+        overflow: hidden;
+        background: rgba(24, 23, 32, 0.9);
+        mix-blend-mode: normal;
+        border: 1px solid #515151;
+        backdrop-filter: blur(15px);
+        border-radius: 10px;
+      }
       .buttons {
         margin-top: 30px;
         display: flex;
@@ -286,10 +302,24 @@ const Book = styled.div`
       .flex {
         display: flex;
         flex-direction: row;
+        position: relative;
         padding: 61px 100px 0 100px;
         height: 550px;
         width: 100%;
         overflow: hidden;
+        .exitContainer {
+          position: absolute;
+          right: 5%;
+          button {
+            cursor: pointer;
+            border: none;
+            background-color: transparent;
+            i {
+              font-size: 3rem;
+              color: #6c6b6b;
+            }
+          }
+        }
         .imageContainer {
           img {
             width: 362px;

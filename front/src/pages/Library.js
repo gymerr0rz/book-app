@@ -86,7 +86,6 @@ export default class BooksPage extends Component {
 
     function createBookPage(bookTitle, bookImage, bookAuthor, bookDesc) {
       const container = document.querySelector('.root');
-      container.innerHTML = ``;
       const descContainer = document.createElement('div');
       descContainer.classList.add('description');
       const bookContainer = document.createElement('div');
@@ -95,7 +94,7 @@ export default class BooksPage extends Component {
       const desc = document.createElement('p');
       desc.innerText = bookDesc;
       const title = document.createElement('h1');
-      title.innerText = bookTitle;
+      title.innerText = bookTitle.substring(0, 21) + '...';
       const author = document.createElement('p');
       author.innerText = 'by ' + bookAuthor;
       const image = document.createElement('img');
@@ -106,18 +105,32 @@ export default class BooksPage extends Component {
       const listenButton = document.createElement('button');
       const readButton = document.createElement('button');
       const flexDiv = document.createElement('div');
+      const exitBtn = document.createElement('button');
+      const icon = document.createElement('i');
+      icon.classList.add('fa-regular');
+      icon.classList.add('fa-circle-xmark');
+      const exitContainer = document.createElement('div');
+      exitBtn.addEventListener('click', () => {
+        main.remove();
+      });
+      exitContainer.classList.add('exitContainer');
+      exitBtn.append(icon);
+      exitContainer.append(exitBtn);
       flexDiv.classList.add('flex');
       listenButton.innerText = 'Listen to a audiobook';
       readButton.innerText = 'Read a book';
       imageContainer.append(image);
       descContainer.append(desc);
       bookContainer.append(title, author, descContainer);
-      flexDiv.append(imageContainer, bookContainer);
+      flexDiv.append(imageContainer, bookContainer, exitContainer);
       const buttonContainer = document.createElement('div');
       buttonContainer.classList.add('buttons');
+      const center = document.createElement('div');
+      center.classList.add('center');
       buttonContainer.append(listenButton, readButton);
-      main.append(flexDiv, buttonContainer);
-      container.append(main);
+      center.append(flexDiv, buttonContainer);
+      main.append(center);
+      container.prepend(main);
     }
 
     function createCard(title, image, author, cryptedTitle, desc) {
