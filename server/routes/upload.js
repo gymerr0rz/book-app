@@ -25,23 +25,58 @@ router.post('/uploadBook', upload.single('file'), (req, res) => {
   res.json({ file: req.file });
 });
 
-router.post('/whichBookOpened', (req, res) => {
+router.get('/whichBookOpened/:id', (req, res) => {
   // Getting the bookName from the body and then editing it.
-  const { bookName } = req.body;
-  const splitName = bookName.split('/')[2];
-  const result = splitName.split('-').join(' ');
-
+  const reqBody = req.params.id;
+  const result = reqBody.toLowerCase();
+  console.log(result);
   // Going through dir and comparing names
   const readDir = fs.readdirSync('./books');
   readDir.forEach(async (book) => {
     let a = fs.readFileSync('./books/' + book);
-    let pdfDoc = await PDFDocument.load(a);
+    let pdfDoc = await PDFDocument.load(a, { ignoreEncryption: true });
     let str = pdfDoc.getTitle();
-    let strSplit = str.split(' -');
-    let pdfTitle = strSplit[0];
-    if (pdfTitle === result) {
+
+    if (str.includes(' -')) {
+      let strSplit = str.split(' -');
+      let pdfTitle = strSplit[0].toLowerCase();
+      if (pdfTitle == result) {
+        const dirPath = path.join(__dirname, '../books/' + book);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
+        res.setHeader('Content-Length', fs.statSync(dirPath).size);
+        fs.createReadStream(dirPath).pipe(res);
+      }
+    } else if (str.includes(':')) {
+      let strSplit = str.split(':');
+      let pdfTitle = strSplit[0].toLowerCase();
+      console.log(pdfTitle);
+      console.log(result);
+      if (pdfTitle == result) {
+        const dirPath = path.join(__dirname, '../books/' + book);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
+        res.setHeader('Content-Length', fs.statSync(dirPath).size);
+        fs.createReadStream(dirPath).pipe(res);
+      }
+    } else if (str.includes('_')) {
+      let strSplit = str.split('_');
+      let pdfTitle = strSplit[0].toLowerCase();
+      console.log(pdfTitle);
+      console.log(result);
+      if (pdfTitle == result) {
+        const dirPath = path.join(__dirname, '../books/' + book);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
+        res.setHeader('Content-Length', fs.statSync(dirPath).size);
+        fs.createReadStream(dirPath).pipe(res);
+      }
+    } else {
       const dirPath = path.join(__dirname, '../books/' + book);
-      res.sendFile(dirPath);
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
+      res.setHeader('Content-Length', fs.statSync(dirPath).size);
+      fs.createReadStream(dirPath).pipe(res);
     }
   });
 });
@@ -53,7 +88,7 @@ router.get('/getBooks', (req, res) => {
   readDir.forEach(async (book) => {
     try {
       let a = fs.readFileSync('./books/' + book);
-      let pdfDoc = await PDFDocument.load(a);
+      let pdfDoc = await PDFDocument.load(a, { ignoreEncryption: true });
       let pdfAuthor = pdfDoc.getAuthor();
       let str = pdfDoc.getTitle();
       // str.replace(/[^a-z]/gi, '');
@@ -75,7 +110,6 @@ router.get('/getBooks', (req, res) => {
 
   // Get covers from GOOGLE API by comparing book name and then rendering cover
   async function getCover(book) {
-    console.log(book);
     await axios
       .get('https://www.googleapis.com/books/v1/volumes?q=intitle:' + book)
       .then((response) => response.data)

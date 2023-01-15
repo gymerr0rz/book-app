@@ -85,48 +85,60 @@ export default class BooksPage extends Component {
     }
 
     function createBookPage(bookTitle, bookImage, bookAuthor, bookDesc) {
+      // Create Elements
       const container = document.querySelector('.root');
       const descContainer = document.createElement('div');
-      descContainer.classList.add('description');
       const bookContainer = document.createElement('div');
       const main = document.createElement('div');
-      main.classList.add('main');
       const desc = document.createElement('p');
-      desc.innerText = bookDesc;
       const title = document.createElement('h1');
-      title.innerText = bookTitle.substring(0, 21) + '...';
       const author = document.createElement('p');
-      author.innerText = 'by ' + bookAuthor;
       const image = document.createElement('img');
-      image.src = bookImage;
       const imageContainer = document.createElement('div');
-      imageContainer.classList.add('imageContainer');
-      bookContainer.classList.add('bookInformation');
       const listenButton = document.createElement('button');
       const readButton = document.createElement('button');
       const flexDiv = document.createElement('div');
       const exitBtn = document.createElement('button');
       const icon = document.createElement('i');
+      const buttonContainer = document.createElement('div');
+      const exitContainer = document.createElement('div');
+      const center = document.createElement('div');
+      // Put the value of the Element
+      desc.innerText = bookDesc;
+      title.innerText = bookTitle.substring(0, 21) + '...';
+      author.innerText = 'by ' + bookAuthor;
+
+      image.src = bookImage;
+
+      readButton.innerText = 'Read a book';
+      listenButton.innerText = 'Listen to a audiobook';
+      // Add Classes to the Element
+      descContainer.classList.add('description');
+      main.classList.add('main');
+      imageContainer.classList.add('imageContainer');
+      bookContainer.classList.add('bookInformation');
       icon.classList.add('fa-regular');
       icon.classList.add('fa-circle-xmark');
-      const exitContainer = document.createElement('div');
+      flexDiv.classList.add('flex');
+      center.classList.add('center');
+      exitContainer.classList.add('exitContainer');
+      buttonContainer.classList.add('buttons');
+      // Event Listeners
+      readButton.addEventListener('click', () => {
+        console.log('Clicked the Read Button');
+        window.location.href = '/books/' + bookTitle;
+      });
+
       exitBtn.addEventListener('click', () => {
         main.remove();
       });
-      exitContainer.classList.add('exitContainer');
+      // Append
       exitBtn.append(icon);
       exitContainer.append(exitBtn);
-      flexDiv.classList.add('flex');
-      listenButton.innerText = 'Listen to a audiobook';
-      readButton.innerText = 'Read a book';
       imageContainer.append(image);
       descContainer.append(desc);
       bookContainer.append(title, author, descContainer);
       flexDiv.append(imageContainer, bookContainer, exitContainer);
-      const buttonContainer = document.createElement('div');
-      buttonContainer.classList.add('buttons');
-      const center = document.createElement('div');
-      center.classList.add('center');
       buttonContainer.append(listenButton, readButton);
       center.append(flexDiv, buttonContainer);
       main.append(center);
