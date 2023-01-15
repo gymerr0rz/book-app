@@ -75,6 +75,7 @@ router.get('/getBooks', (req, res) => {
 
   // Get covers from GOOGLE API by comparing book name and then rendering cover
   async function getCover(book) {
+    console.log(book);
     await axios
       .get('https://www.googleapis.com/books/v1/volumes?q=intitle:' + book)
       .then((response) => response.data)
