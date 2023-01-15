@@ -11,6 +11,7 @@ const upload = require('../middleware/uploadBook');
 const path = require('path');
 const { PDFDocument } = require('pdf-lib');
 const bcrypt = require('bcrypt');
+const { response } = require('express');
 let gfs;
 
 conn.once('open', () => {
@@ -29,54 +30,103 @@ router.get('/whichBookOpened/:id', (req, res) => {
   // Getting the bookName from the body and then editing it.
   const reqBody = req.params.id;
   const result = reqBody.toLowerCase();
-  console.log(result);
   // Going through dir and comparing names
   const readDir = fs.readdirSync('./books');
+  let matchFound = false;
   readDir.forEach(async (book) => {
+    console.log('Loading book...');
+    if (matchFound) return;
     let a = fs.readFileSync('./books/' + book);
     let pdfDoc = await PDFDocument.load(a, { ignoreEncryption: true });
-    let str = pdfDoc.getTitle();
+    let str = pdfDoc.getTitle().toLowerCase();
 
-    if (str.includes(' -')) {
-      let strSplit = str.split(' -');
-      let pdfTitle = strSplit[0].toLowerCase();
-      if (pdfTitle == result) {
-        const dirPath = path.join(__dirname, '../books/' + book);
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
-        res.setHeader('Content-Length', fs.statSync(dirPath).size);
-        fs.createReadStream(dirPath).pipe(res);
+    try {
+      if (str.includes(' -')) {
+        let strSplit = str.split(' -');
+        let pdfTitle = strSplit[0];
+        console.log(`Comparing ${pdfTitle} and ${result}`);
+        if (pdfTitle === result) {
+          matchFound = true;
+          if (!res.headersSent) {
+            const dirPath = path.join(__dirname, '../books/' + book);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader(
+              'Content-Disposition',
+              'attachment; filename=file.pdf'
+            );
+            res.setHeader('Content-Length', fs.statSync(dirPath).size);
+            fs.createReadStream(dirPath).pipe(res);
+          }
+        }
+      } else if (str.includes(':')) {
+        let strSplit = str.split(':');
+        let pdfTitle = strSplit[0];
+        console.log(`Comparing ${pdfTitle} and ${result}`);
+        if (pdfTitle === result) {
+          matchFound = true;
+          if (!res.headersSent) {
+            const dirPath = path.join(__dirname, '../books/' + book);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader(
+              'Content-Disposition',
+              'attachment; filename=file.pdf'
+            );
+            res.setHeader('Content-Length', fs.statSync(dirPath).size);
+            fs.createReadStream(dirPath).pipe(res);
+          }
+        }
+      } else if (str.includes('_')) {
+        let strSplit = str.split('_');
+        let pdfTitle = strSplit[0];
+        console.log(`Comparing ${pdfTitle} and ${result}`);
+        if (pdfTitle === result) {
+          matchFound = true;
+          if (!res.headersSent) {
+            const dirPath = path.join(__dirname, '../books/' + book);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader(
+              'Content-Disposition',
+              'attachment; filename=file.pdf'
+            );
+            res.setHeader('Content-Length', fs.statSync(dirPath).size);
+            fs.createReadStream(dirPath).pipe(res);
+          }
+        }
+      } else if (str.includes(',,')) {
+        let strSplit = str.split(' ,,');
+        let pdfTitle = strSplit[0];
+        console.log(`Comparing ${pdfTitle} and ${result}`);
+        if (pdfTitle === result) {
+          matchFound = true;
+          if (!res.headersSent) {
+            const dirPath = path.join(__dirname, '../books/' + book);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader(
+              'Content-Disposition',
+              'attachment; filename=file.pdf'
+            );
+            res.setHeader('Content-Length', fs.statSync(dirPath).size);
+            fs.createReadStream(dirPath).pipe(res);
+          }
+        }
+      } else {
+        console.log(`Comparing ${str} and ${result}`);
+        if (str === result) {
+          matchFound = true;
+          if (!res.headersSent) {
+            const dirPath = path.join(__dirname, '../books/' + book);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader(
+              'Content-Disposition',
+              'attachment; filename=file.pdf'
+            );
+            res.setHeader('Content-Length', fs.statSync(dirPath).size);
+            fs.createReadStream(dirPath).pipe(res);
+          }
+        }
       }
-    } else if (str.includes(':')) {
-      let strSplit = str.split(':');
-      let pdfTitle = strSplit[0].toLowerCase();
-      console.log(pdfTitle);
-      console.log(result);
-      if (pdfTitle == result) {
-        const dirPath = path.join(__dirname, '../books/' + book);
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
-        res.setHeader('Content-Length', fs.statSync(dirPath).size);
-        fs.createReadStream(dirPath).pipe(res);
-      }
-    } else if (str.includes('_')) {
-      let strSplit = str.split('_');
-      let pdfTitle = strSplit[0].toLowerCase();
-      console.log(pdfTitle);
-      console.log(result);
-      if (pdfTitle == result) {
-        const dirPath = path.join(__dirname, '../books/' + book);
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
-        res.setHeader('Content-Length', fs.statSync(dirPath).size);
-        fs.createReadStream(dirPath).pipe(res);
-      }
-    } else {
-      const dirPath = path.join(__dirname, '../books/' + book);
-      res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
-      res.setHeader('Content-Length', fs.statSync(dirPath).size);
-      fs.createReadStream(dirPath).pipe(res);
+    } catch (err) {
+      console.log(err);
     }
   });
 });
@@ -95,13 +145,21 @@ router.get('/getBooks', (req, res) => {
       if (str.includes(' -')) {
         let strSplit = str.split(' -');
         let pdfTitle = strSplit[0];
+        console.log(pdfTitle);
         getCover(pdfTitle);
       } else if (str.includes(':')) {
         let strSplit = str.split(':');
-        let pdfTitle = strSplit[0] + 'by ' + pdfAuthor;
+        let pdfTitle = strSplit[0] + ' by ' + pdfAuthor;
+        console.log(pdfTitle);
+        getCover(pdfTitle);
+      } else if (str.includes(',,')) {
+        let strSplit = str.split(' ,,');
+        let pdfTitle = strSplit[0] + ' by ' + pdfAuthor;
+        console.log(pdfTitle);
         getCover(pdfTitle);
       } else {
-        getCover(str);
+        const pdfTitle = str + ' by ' + pdfAuthor;
+        getCover(pdfTitle);
       }
     } catch (err) {
       console.log(err);
