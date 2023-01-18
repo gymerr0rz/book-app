@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const BooksContainer = styled.div`
   .documentStyling {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     border-radius: 26px;
     padding: 100px 0;
     .pageStyling {
@@ -15,7 +15,7 @@ const BooksContainer = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100vw;
-  height: 85vh;
+  height: 100%;
   overflow: auto;
   background-color: rgba(16, 17, 28, 0.98);
 `;
@@ -25,9 +25,12 @@ const Container = styled.div`
   justify-content: space-between;
   width: 80%;
   align-items: center;
-  position: absolute;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   span {
-    border-radius: 100%;
+    border-radius: 10px;
     padding: 20px 25px;
   }
   span:hover {

@@ -5,12 +5,15 @@ const Container = styled.div`
   padding: 0 100px;
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: 15vh;
   background-color: rgba(9, 9, 11, 0.99);
   p,
   a {
     color: #fff;
+  }
+  li {
+    list-style-type: none;
   }
   .navLinks li {
     text-transform: uppercase;
@@ -22,10 +25,6 @@ const Container = styled.div`
   .navLinks li a:hover {
     color: #6c63ff;
     transition: color 0.2s ease;
-  }
-  li::marker {
-    content: '';
-    margin: 0;
   }
 `;
 

@@ -270,7 +270,7 @@ const Book = styled.div`
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        width: 1842px;
+        width: 90%;
         height: 803px;
         overflow: hidden;
         background: rgba(24, 23, 32, 0.9);

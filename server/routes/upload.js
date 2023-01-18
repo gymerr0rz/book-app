@@ -11,7 +11,9 @@ const upload = require('../middleware/uploadBook');
 const path = require('path');
 const { PDFDocument } = require('pdf-lib');
 const bcrypt = require('bcrypt');
-const { response } = require('express');
+
+const BOOK_PATH = '../books/';
+const PDF_CONTENT_TYPE = 'application/pdf';
 let gfs;
 
 conn.once('open', () => {
@@ -20,7 +22,7 @@ conn.once('open', () => {
   return gfs;
 });
 
-// Recieves file from front-end and stores into /books
+// Receives file from front-end and stores into /books
 router.post('/uploadBook', upload.single('file'), (req, res) => {
   console.log(req.file);
   res.json({ file: req.file });
@@ -48,8 +50,8 @@ router.get('/whichBookOpened/:id', (req, res) => {
         if (pdfTitle === result) {
           matchFound = true;
           if (!res.headersSent) {
-            const dirPath = path.join(__dirname, '../books/' + book);
-            res.setHeader('Content-Type', 'application/pdf');
+            const dirPath = path.join(__dirname, BOOK_PATH + book);
+            res.setHeader('Content-Type', PDF_CONTENT_TYPE);
             res.setHeader(
               'Content-Disposition',
               'attachment; filename=file.pdf'
@@ -65,8 +67,8 @@ router.get('/whichBookOpened/:id', (req, res) => {
         if (pdfTitle === result) {
           matchFound = true;
           if (!res.headersSent) {
-            const dirPath = path.join(__dirname, '../books/' + book);
-            res.setHeader('Content-Type', 'application/pdf');
+            const dirPath = path.join(__dirname, BOOK_PATH + book);
+            res.setHeader('Content-Type', PDF_CONTENT_TYPE);
             res.setHeader(
               'Content-Disposition',
               'attachment; filename=file.pdf'
@@ -82,8 +84,8 @@ router.get('/whichBookOpened/:id', (req, res) => {
         if (pdfTitle === result) {
           matchFound = true;
           if (!res.headersSent) {
-            const dirPath = path.join(__dirname, '../books/' + book);
-            res.setHeader('Content-Type', 'application/pdf');
+            const dirPath = path.join(__dirname, BOOK_PATH + book);
+            res.setHeader('Content-Type', PDF_CONTENT_TYPE);
             res.setHeader(
               'Content-Disposition',
               'attachment; filename=file.pdf'
@@ -99,8 +101,8 @@ router.get('/whichBookOpened/:id', (req, res) => {
         if (pdfTitle === result) {
           matchFound = true;
           if (!res.headersSent) {
-            const dirPath = path.join(__dirname, '../books/' + book);
-            res.setHeader('Content-Type', 'application/pdf');
+            const dirPath = path.join(__dirname, BOOK_PATH + book);
+            res.setHeader('Content-Type', PDF_CONTENT_TYPE);
             res.setHeader(
               'Content-Disposition',
               'attachment; filename=file.pdf'
@@ -114,8 +116,8 @@ router.get('/whichBookOpened/:id', (req, res) => {
         if (str === result) {
           matchFound = true;
           if (!res.headersSent) {
-            const dirPath = path.join(__dirname, '../books/' + book);
-            res.setHeader('Content-Type', 'application/pdf');
+            const dirPath = path.join(__dirname, BOOK_PATH + book);
+            res.setHeader('Content-Type', PDF_CONTENT_TYPE);
             res.setHeader(
               'Content-Disposition',
               'attachment; filename=file.pdf'
