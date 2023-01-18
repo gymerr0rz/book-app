@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const uploadRouter = require('./routes/upload');
 const cors = require('cors');
 const methodOverride = require('method-override');
-const authRouter = require('./routes/auth');
 
 mongoose
   .connect(process.env.MONGO_SERVER, {
@@ -27,7 +26,6 @@ app.use(
 );
 app.use(cors());
 app.use('/', uploadRouter);
-app.use('/auth/', authRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on ${process.env.PORT}`);

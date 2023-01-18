@@ -1,5 +1,4 @@
 import React from 'react';
-import User from './User';
 import { Container, NavLinksStyled, LogoStyled } from './Navbar.styled';
 import Logo from '../assets/white-logo.png';
 import { Link, useMatch, useResolvedPath } from 'react-router-dom';
@@ -34,7 +33,6 @@ const Navbar = () => {
           </CustomLink>
         </ul>
       </NavLinksStyled>
-      <User />
     </Container>
   );
 };

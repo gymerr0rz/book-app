@@ -199,7 +199,7 @@ router.get('/getBooks', (req, res) => {
   setTimeout(() => {
     console.log('Books send to the front end.');
     res.send(arr);
-  }, 3000);
+  }, 5000);
 });
 
 module.exports = router;
