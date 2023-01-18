@@ -111,6 +111,23 @@ router.get('/whichBookOpened/:id', (req, res) => {
             fs.createReadStream(dirPath).pipe(res);
           }
         }
+      } else if (str.includes(';')) {
+        let strSplit = str.split(';');
+        let pdfTitle = strSplit[0];
+        console.log(`Comparing ${pdfTitle} and ${result}`);
+        if (pdfTitle === result) {
+          matchFound = true;
+          if (!res.headersSent) {
+            const dirPath = path.join(__dirname, BOOK_PATH + book);
+            res.setHeader('Content-Type', PDF_CONTENT_TYPE);
+            res.setHeader(
+              'Content-Disposition',
+              'attachment; filename=file.pdf'
+            );
+            res.setHeader('Content-Length', fs.statSync(dirPath).size);
+            fs.createReadStream(dirPath).pipe(res);
+          }
+        }
       } else {
         console.log(`Comparing ${str} and ${result}`);
         if (str === result) {
