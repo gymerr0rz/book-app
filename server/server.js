@@ -5,14 +5,6 @@ const uploadRouter = require('./routes/upload');
 const cors = require('cors');
 const methodOverride = require('method-override');
 
-mongoose
-  .connect(process.env.MONGO_SERVER, {
-    useNewUrlParser: true,
-  })
-  .then(() => {
-    console.log('Database connected...');
-  });
-
 const app = express();
 
 app.use(methodOverride('_method'));
