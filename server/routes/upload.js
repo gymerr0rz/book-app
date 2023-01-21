@@ -8,7 +8,7 @@ const upload = require('../middleware/uploadBook');
 const path = require('path');
 const { PDFDocument } = require('pdf-lib');
 const bcrypt = require('bcrypt');
-
+const epubParser = require('epub-parser');
 const BOOK_PATH = '../books/';
 const PDF_CONTENT_TYPE = 'application/pdf';
 // Receives file from front-end and stores into /books
@@ -29,11 +29,6 @@ function splitString(string) {
   }
   return string;
 }
-
-router.post('/sliceWord', (req, res) => {
-  const { word } = req.body;
-  splitString(word);
-});
 
 router.get('/whichBookOpened/:id', (req, res) => {
   // Getting the bookName from the body and then editing it.
@@ -74,13 +69,24 @@ router.get('/getBooks', (req, res) => {
   readDir.forEach(async (book) => {
     try {
       let a = fs.readFileSync('./books/' + book);
-      let pdfDoc = await PDFDocument.load(a, { ignoreEncryption: true });
-      let pdfAuthor = pdfDoc.getAuthor();
-      let str = pdfDoc.getTitle();
+      if (book.includes('.pdf')) {
+        console.log(`${book} is a pdf file.`);
+        let pdfDoc = await PDFDocument.load(a, { ignoreEncryption: true });
+        let pdfAuthor = pdfDoc.getAuthor();
+        let str = pdfDoc.getTitle();
+        const title = splitString(str) + ' by ' + pdfAuthor;
+        console.log(title);
+        getCover(title);
+      } else if (book.includes('.epub')) {
+        epubParser.open('./books/' + book, function (err, epubData) {
+          if (err) return console.log(err);
+          const author = epubData.easy.simpleMeta[6];
+          const title = epubData.easy.simpleMeta[9];
+          console.log(author, title);
+        });
+      }
+
       // str.replace(/[^a-z]/gi, '');
-      const title = splitString(str) + ' by ' + pdfAuthor;
-      console.log(title);
-      getCover(title);
     } catch (err) {
       console.log(err);
     }
@@ -89,7 +95,7 @@ router.get('/getBooks', (req, res) => {
   // Get covers from GOOGLE API by comparing book name and then rendering cover
   async function getCover(book) {
     await axios
-      .get('https://www.googleapis.com/books/v1/volumes?q=intitle:' + book)
+      .get('https://www.googleapis.com/books/v1/volumes?q=' + book)
       .then((response) => response.data)
       .then(async (data) => {
         if (data.totalItems === 0) {
