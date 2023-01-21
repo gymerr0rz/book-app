@@ -97,7 +97,8 @@ router.get('/getBooks', (req, res) => {
         } else {
           try {
             const item = data.items[0];
-            const title = item.volumeInfo.title;
+            const sliceBookTitle = book.split(' by');
+            const title = sliceBookTitle[0];
             const desc = item.volumeInfo.description;
             const author = item.volumeInfo.authors[0];
             const a = item.volumeInfo.imageLinks.thumbnail;
