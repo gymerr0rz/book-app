@@ -38,26 +38,35 @@ router.get('/whichBookOpened/:id', (req, res) => {
   const readDir = fs.readdirSync('./books');
   let matchFound = false;
   readDir.forEach(async (book) => {
-    console.log('Loading book...');
-    if (matchFound) return;
-    let a = fs.readFileSync('./books/' + book);
-    let pdfDoc = await PDFDocument.load(a, { ignoreEncryption: true });
-    let str = pdfDoc.getTitle().toLowerCase();
-    try {
-      const bookTitle = splitString(str);
-      console.log(`Comparing ${bookTitle} and ${result}`);
-      if (bookTitle === result) {
-        matchFound = true;
-        if (!res.headersSent) {
-          const dirPath = path.join(__dirname, BOOK_PATH + book);
-          res.setHeader('Content-Type', PDF_CONTENT_TYPE);
-          res.setHeader('Content-Disposition', 'attachment; filename=file.pdf');
-          res.setHeader('Content-Length', fs.statSync(dirPath).size);
-          fs.createReadStream(dirPath).pipe(res);
+    if (book.includes('.epub')) {
+      console.log('EPUB File');
+    }
+
+    if (book.includes('.pdf')) {
+      console.log('Loading book...');
+      if (matchFound) return;
+      let a = fs.readFileSync('./books/' + book);
+      let pdfDoc = await PDFDocument.load(a, { ignoreEncryption: true });
+      let str = pdfDoc.getTitle().toLowerCase();
+      try {
+        const bookTitle = splitString(str);
+        console.log(`Comparing ${bookTitle} and ${result}`);
+        if (bookTitle === result) {
+          matchFound = true;
+          if (!res.headersSent) {
+            const dirPath = path.join(__dirname, BOOK_PATH + book);
+            res.setHeader('Content-Type', PDF_CONTENT_TYPE);
+            res.setHeader(
+              'Content-Disposition',
+              'attachment; filename=file.pdf'
+            );
+            res.setHeader('Content-Length', fs.statSync(dirPath).size);
+            fs.createReadStream(dirPath).pipe(res);
+          }
         }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
   });
 });
@@ -80,13 +89,14 @@ router.get('/getBooks', (req, res) => {
       } else if (book.includes('.epub')) {
         epubParser.open('./books/' + book, function (err, epubData) {
           if (err) return console.log(err);
-          const author = epubData.easy.simpleMeta[6];
-          const title = epubData.easy.simpleMeta[9];
-          console.log(author, title);
+          const extractAuthor = epubData.easy.simpleMeta[6];
+          const extractTitle = epubData.easy.simpleMeta[7];
+          const author = Object.values(extractAuthor)[0];
+          const title =
+            splitString(Object.values(extractTitle)[0]) + ' by ' + author;
+          getCover(title);
         });
       }
-
-      // str.replace(/[^a-z]/gi, '');
     } catch (err) {
       console.log(err);
     }
