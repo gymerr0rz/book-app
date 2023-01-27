@@ -38,9 +38,7 @@ export default class BooksPage extends Component {
             .then((res) => res.json())
             .then((data) => {
               console.log(data);
-              // this.state.books = true;
-              // this.createBook(data);
-              // console.log(data.data);
+              window.location.reload();
             });
         } else {
           this.state.books = false;
@@ -56,7 +54,6 @@ export default class BooksPage extends Component {
 
   dragOverHandler(ev) {
     console.log('File(s) in drop zone');
-
     // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
   }
@@ -74,7 +71,7 @@ export default class BooksPage extends Component {
       .then((res) => res.json())
       .then((data) => {
         console.log(data, typeof data);
-        window.href = '/';
+        window.location.reload();
       });
   }
 
@@ -177,14 +174,18 @@ export default class BooksPage extends Component {
     })
       .then((res) => res.json())
       .then((data) => {
-        data.forEach((pdf) => {
-          const title = pdf.title;
-          const thumbnail = pdf.thumbnail;
-          const author = pdf.author;
-          const cryptedTitle = pdf.crypto;
-          const desc = pdf.desc;
-          createCard(title, thumbnail, author, cryptedTitle, desc);
-        });
+        if (data.failed) {
+          stopLoading();
+        } else {
+          data.forEach((pdf) => {
+            const title = pdf.title;
+            const thumbnail = pdf.thumbnail;
+            const author = pdf.author;
+            const cryptedTitle = pdf.crypto;
+            const desc = pdf.desc;
+            createCard(title, thumbnail, author, cryptedTitle, desc);
+          });
+        }
       });
 
     return (

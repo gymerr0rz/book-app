@@ -133,7 +133,12 @@ router.get('/getBooks', (req, res) => {
   }
   setTimeout(() => {
     console.log('Books send to the front end.');
-    res.send(arr);
+    if (arr.length > 0) res.send(arr);
+    else {
+      res.send({
+        failed: 'No books found.',
+      });
+    }
   }, 5000);
 });
 
