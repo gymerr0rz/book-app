@@ -41,7 +41,7 @@ const Home = () => {
             <button>Start Reading</button>
           </Link>
         </HomeText>
-        <img src={BookVector} alt="picture-book" />
+        <img src={BookVector} alt="book-vector" />
       </HomeContainer>
     </>
   );

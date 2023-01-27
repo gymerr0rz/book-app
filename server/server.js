@@ -1,6 +1,5 @@
 const express = require('express');
 require('dotenv').config();
-const mongoose = require('mongoose');
 const uploadRouter = require('./routes/upload');
 const cors = require('cors');
 const methodOverride = require('method-override');

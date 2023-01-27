@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack';
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import { BooksContainer, Buttons, Container } from './BooksDisplay.styled';
 import axios from 'axios';
 

@@ -3,7 +3,6 @@ import { Book, BooksContainer, LoadingGif } from './Library.styled';
 import img from '../assets/no-books.svg';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
 
 const options = {
   position: 'top-right',
@@ -41,7 +40,6 @@ export default class BooksPage extends Component {
               window.location.reload();
             });
         } else {
-          this.state.books = false;
           [...ev.dataTransfer.files].forEach((file, i) => {
             console.log(`… file[${i}].name = ${file.name}`);
             console.log(file);
@@ -195,7 +193,7 @@ export default class BooksPage extends Component {
           onDrop={(e) => this.dropHandler(e)}
           onDragOver={(e) => this.dragOverHandler(e)}
         >
-          <img className="back-image" src={img} alt="hello" />
+          <img className="back-image" src={img} alt="" />
           <div className="books-text">
             <h1>Wanna read a book?</h1>
             <p>
@@ -224,7 +222,10 @@ export default class BooksPage extends Component {
       <>
         <ToastContainer />
         <LoadingGif className="loading active">
-          <img src="https://i.pinimg.com/originals/a2/dc/96/a2dc9668f2cf170fe3efeb263128b0e7.gif" />
+          <img
+            src="https://i.pinimg.com/originals/a2/dc/96/a2dc9668f2cf170fe3efeb263128b0e7.gif"
+            alt=""
+          />
         </LoadingGif>
         <Book className="root">
           <div className="search-div">

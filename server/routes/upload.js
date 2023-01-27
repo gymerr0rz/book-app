@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 require('dotenv').config();
-require('../schemas/BookSchema');
 const axios = require('axios');
 const upload = require('../middleware/uploadBook');
 const path = require('path');
