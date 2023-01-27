@@ -8,7 +8,7 @@ This is the back-end for [BOOK-APP](https://github.com/gymerr0rz/book-app/tree/m
 
 1. Clone the repository.
 2. Run `yarn install` or `npm install` to install dependencies.
-3. Create a `.env.development` file in the root directory and paste the following:
+3. Create a `.env` file in the root directory and paste the following:
 
    ```
    PORT=
